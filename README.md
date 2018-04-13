@@ -1,10 +1,15 @@
 # Modules for scxa-analytics solr index
 
-Execution of tasks here require that `bin/` directory in the root of this repo is part of your path.
+Scripts to create and load data into the `scxa-analytics` solr index. Execution of tasks here require that `bin/` directory in the root of this repo is part of your path, and that the following executables are available:
+
+- awk
+- jq
+- curl
+
 
 ## Create schema
 
-To create the schema, set the envronment variables `SOLR_HOST` and `SOLR_COLLECTION` to the appropiate server and collection, and execute as shown
+To create the schema, set the envronment variable `SOLR_HOST` to the appropiate server, and execute as shown
 
 ```
 export SOLR_HOST=192.168.99.100:32080
@@ -12,7 +17,7 @@ export SOLR_HOST=192.168.99.100:32080
 create-schema.sh
 ```
 
-You can override the default solr schema name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number` at the end, or the loader might refuse to load this.
+You can override the default solr schema name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
 
 ## Load data
 
@@ -25,3 +30,7 @@ export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-
 
 $ condSdrf2tsvForSCXAJSONFactorsIndex.sh $CONDENSED_SDRF_TSV | jsonGroupByCellID.sh | loadJSONIndexToSolr.sh 
 ```
+
+## Tests
+
+TODO
