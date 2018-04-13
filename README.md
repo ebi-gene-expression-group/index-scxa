@@ -25,10 +25,9 @@ This module loads data from a condensed SDRF in an SCXA experiment to the sc-ana
 
 ```
 export SOLR_HOST=192.168.99.100:32080
-export SOLR_COLLECTION=sc-analytics-v1
 export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-106540.condensed-sdrf.tsv
 
-$ condSdrf2tsvForSCXAJSONFactorsIndex.sh $CONDENSED_SDRF_TSV | jsonGroupByCellID.sh | loadJSONIndexToSolr.sh 
+load_index.sh 
 ```
 
 ## Tests
