@@ -1,4 +1,5 @@
 E-GEOD-106540		SRR6257787	characteristic	cell subtype	TEMRA
+E-GEOD-106540		SRR6257787	characteristic	cell subtype	TEMRA2
 E-GEOD-106540		SRR6257787	characteristic	cell subtype surface markers	CD3+CD4+CD8alpha/CD14/CD19-CD45RA+CCR7-
 E-GEOD-106540		SRR6257787	characteristic	cell type	peripheral blood mononuclear cell
 E-GEOD-106540		SRR6257787	characteristic	clinical information	dengue virus negative
@@ -58,3 +59,4 @@ E-GEOD-106540		SRR6257791	characteristic	disease	normal
 E-GEOD-106540		SRR6257791	characteristic	geographical location	Sri Lanka
 E-GEOD-106540		SRR6257791	characteristic	individual	Subject10
 E-GEOD-106540		SRR6257791	characteristic	organism	Homo sapiens
+E-GEOD-106540		SRR6257791	characteristic	organism	E. coli
