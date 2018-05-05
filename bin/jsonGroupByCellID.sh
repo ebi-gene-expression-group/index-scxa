@@ -11,7 +11,7 @@
 # besides "cell_id" and "experiment_accession".
 
 # (4)
-jq '[group_by([.cell_id, .experiment_accession])] | .[] | map([ .[] ] | reduce .[] as  $o ({}; reduce ($o|keys)[] as $key (.; if $key=="cell_id" or $key=="experiment_accession" then .[$key] = $o[$key] else .[$key] |= ( . + $o[$key] | unique ) end ))  )'
+jq '[group_by([.cell_id, .experiment_accession])] | .[] | map([ .[] ] | reduce .[] as  $o ({}; reduce ($o|keys)[] as $key (.; if $key=="cell_id" or $key=="experiment_accession" then .[$key] = $o[$key] else .[$key] |= ( . + $o[$key] | unique ) end )) | select(length > 0) )'
 
 # Given the functional complexity of jq, I'm leaving the thought process that is not captured by the version control below.
 
