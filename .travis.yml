@@ -1,0 +1,15 @@
+before_install:
+  - sudo apt-get -qq update
+
+addons:
+  apt:
+    packages:
+    - jq
+    - git
+
+install:
+  - git clone --depth 1 https://github.com/sstephenson/bats.git
+  - pushd bats && sudo ./install.sh /usr/local && popd
+
+script:
+  - bash tests/run-tests.sh
