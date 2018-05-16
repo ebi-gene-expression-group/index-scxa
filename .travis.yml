@@ -1,15 +1,14 @@
+sudo: required
+
+services:
+  - docker
+
 before_install:
-  - sudo apt-get -qq update
+  - docker run --name my_solr -d -p 8983:8983 -t solr
 
-addons:
-  apt:
-    packages:
-    - jq
-    - git
-
-install:
-  - git clone --depth 1 https://github.com/sstephenson/bats.git
-  - pushd bats && sudo ./install.sh /usr/local && popd
+env:
+  - SOLR_HOST=localhost:8983
 
 script:
+  - sleep 5
   - bash tests/run-tests.sh
