@@ -74,7 +74,7 @@ printf "\n\nDelete field characteristics"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field":
   {
-    "name": "factors"
+    "name": "characteristics"
   }
 }' http://$HOST/solr/$CORE/schema
 
@@ -207,7 +207,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 printf "\n\nCreate copy field for facet_characteristic_* (lowercase, multiValued)"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
-     "source":"factor_*",
+     "source":"characteristic_*",
      "dest": "facet_characteristic_*" }
 }' http://$HOST/solr/$CORE/schema
 
