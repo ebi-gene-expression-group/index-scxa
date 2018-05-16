@@ -19,6 +19,10 @@ grep -A 2 '\("add-field"\|"add-dynamic-field"\)' bin/create-scxa-analytics-schem
   | grep '"name"' | awk -F':' '{ print $2 }' | sed 's/[\", ]//g' \
   | sort > expected_loaded_fields.txt
 
-echo "Running file comparison"
-cmp --silent loaded_fields.txt expected_loaded_fields.txt
+echo "Expected"
+cat expected_loaded_fields.txt
+echo "Actual"
+cat loaded_fields.txt
+echo "Running cmp"
+cmp loaded_fields.txt expected_loaded_fields.txt
 echo "Done"
