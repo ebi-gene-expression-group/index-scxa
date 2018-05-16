@@ -4,7 +4,7 @@ services:
   - docker
 
 before_install:
-  - docker run --name my_solr -d -p 8983:8983 -t solr
+  - docker run --name my_solr -d -p 8983:8983 -t solr:7.3-alpine
 
 env:
   - SOLR_HOST=localhost:8983
