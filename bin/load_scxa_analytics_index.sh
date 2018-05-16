@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+set -e
+
+[ -z ${CONDENSED_SDRF_TSV+x} ] && echo "CONDENSED_SDRF_TSV env var is needed." && exit 1
+
 export SCHEMA_VERSION=2
 export SOLR_COLLECTION=scxa-analytics-v$SCHEMA_VERSION
 
