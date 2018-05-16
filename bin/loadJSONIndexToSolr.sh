@@ -6,4 +6,4 @@ export COLLECTION=${SOLR_COLLECTION:-$2}
 echo $HOST
 echo $COLLECTION
 
-curl "http://$HOST/solr/$COLLECTION/update?commit=true" --data-binary @- -H 'Content-type:application/json'
+curl "http://$HOST/solr/$COLLECTION/update?commit=true&processor=scxa_analytics_dedup" --data-binary @- -H 'Content-type:application/json'
