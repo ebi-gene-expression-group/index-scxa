@@ -41,6 +41,7 @@
   if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
     skip "solr collection has been predifined on the current setup"
   fi
+  create-fake-collection-for-config-set.sh
   run create-scxa-analytics-collection.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
