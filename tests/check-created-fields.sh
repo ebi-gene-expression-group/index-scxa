@@ -8,11 +8,13 @@ HOST=${SOLR_HOST:-"localhost:8983"}
 CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
 
 echo "Retrieving fields in the schema"
-curl http://$HOST/solr/$CORE/schema?wt=json \
+curl "http://$HOST/solr/$CORE/schema?wt=json"
+curl "http://$HOST/solr/$CORE/schema?wt=json" \
   | jq '.schema.fields + .schema.dynamicFields | .[].name ' | sed s/\"//g \
   | grep -v '^\*' | grep -v '^_' | grep -v '^id$' | grep -v '^attr_\*$' \
   | sort > loaded_fields.txt
 
+ls -l loaded_fields.txt
 echo "Parsing creationg script"
 ls -l bin/create-scxa-analytics-schema.sh
 grep -A 2 '\("add-field"\|"add-dynamic-field"\)' bin/create-scxa-analytics-schema.sh \
