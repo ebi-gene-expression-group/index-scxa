@@ -74,3 +74,13 @@
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
+
+@test "Check correctness of load" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to SOLR"
+  fi
+  export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
+  run check-index-content.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
