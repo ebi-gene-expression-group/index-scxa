@@ -268,25 +268,25 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 
-printf "\n\nDelete field signatureField"
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-field":
-  {
-    "name": "id"
-  }
-}' http://$HOST/solr/$CORE/schema
-
-printf "\n\nCreate field signatureField for dedup"
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "add-field":
-  {
-    "name": "id",
-    "stored": "true",
-    "indexed": "true"
-    "type": "string",
-    "multiValued": "false"
-  }
-}' http://$HOST/solr/$CORE/schema
+# printf "\n\nDelete field signatureField"
+# curl -X POST -H 'Content-type:application/json' --data-binary '{
+#   "delete-field":
+#   {
+#     "name": "id"
+#   }
+# }' http://$HOST/solr/$CORE/schema
+#
+# printf "\n\nCreate field signatureField for dedup"
+# curl -X POST -H 'Content-type:application/json' --data-binary '{
+#   "add-field":
+#   {
+#     "name": "id",
+#     "stored": "true",
+#     "indexed": "true"
+#     "type": "string",
+#     "multiValued": "false"
+#   }
+# }' http://$HOST/solr/$CORE/schema
 
 
 #############################################################################
