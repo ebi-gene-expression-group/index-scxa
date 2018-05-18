@@ -14,6 +14,8 @@ To create the schema, set the envronment variable `SOLR_HOST` to the appropiate 
 ```
 export SOLR_HOST=192.168.99.100:32080
 
+create-scxa-analytics-config-set.sh
+create-scxa-analytics-collection.sh
 create-scxa-analytics-schema.sh
 ```
 
