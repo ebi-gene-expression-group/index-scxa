@@ -302,7 +302,7 @@ printf "\n\nCreate update processor"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":
   {
-    "name": "scxa_analytics_dedup"
+    "name": "scxa_analytics_v2_dedup"
     "class": "solr.processor.SignatureUpdateProcessorFactory",
     "enabled": "true",
     "signatureField": "id",
