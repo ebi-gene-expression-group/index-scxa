@@ -47,6 +47,15 @@
   [ "$status" -eq 0 ]
 }
 
+@test "Set no auto-create on solr" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping loading of schema on solr"
+  fi
+  run set-no-autocreate.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
 @test "Load schema to collection on solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on solr"

@@ -94,8 +94,8 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 # 1.1
 printf "\n\nDelete copy field for facet_factor_*"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-copy-field":{ 
-     "source":"factor_*", 
+  "delete-copy-field":{
+     "source":"factor_*",
      "dest": "facet_factor_*" }
 }' http://$HOST/solr/$CORE/schema
 
@@ -156,8 +156,8 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 # 2.1
 printf "\n\nDelete copy field for facet_characteristic_*"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-copy-field":{ 
-     "source":"characteristic_*", 
+  "delete-copy-field":{
+     "source":"characteristic_*",
      "dest": "facet_characteristic_*" }
 }' http://$HOST/solr/$CORE/schema
 
@@ -266,29 +266,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' http://$HOST/solr/$CORE/schema
 
 
-#############################################################################################
-
-printf "\n\nDelete field signatureField"
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-field":
-  {
-    "name": "signatureField"
-  }
-}' http://$HOST/solr/$CORE/schema
-
-printf "\n\nCreate field signatureField for dedup"
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "add-field":
-  {
-    "name": "signatureField",
-    "stored": "true",
-    "indexed": "true"
-    "type": "string",
-    "multiValued": "false"
-  }
-}' http://$HOST/solr/$CORE/schema
-
-
 #############################################################################
 printf "\n\nDelete update processor"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
@@ -302,10 +279,10 @@ printf "\n\nCreate update processor"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":
   {
-    "name": "scxa_analytics_dedup"
+    "name": "scxa_analytics_v2_dedup"
     "class": "solr.processor.SignatureUpdateProcessorFactory",
     "enabled": "true",
-    "signatureField": "signatureField",
+    "signatureField": "id",
     "overwriteDupes": "true",
     "fields": "cell_id,experiment_accession",
     "signatureClass": "solr.processor.Lookup3Signature"
