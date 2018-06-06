@@ -1,13 +1,38 @@
-# Modules for loading atlas data into solr
+# Module for Single Cell Expression Atlas solr index (v0.1.0)
 
-## SCXA Condensed SDRF to sc-analytics schema
+Scripts to create and load data into the `scxa-*` solr indexes (as of this version only analytics). Execution of tasks here require that `bin/` directory in the root of this repo is part of your path, and that the following executables are available:
+
+- awk
+- jq (1.5)
+- curl
+
+# `scxa-analytics` index
+
+## Create schema
+
+To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
+
+```
+export SOLR_HOST=192.168.99.100:32080
+
+create-scxa-analytics-config-set.sh
+create-scxa-analytics-collection.sh
+create-scxa-analytics-schema.sh
+```
+
+You can override the default solr schema name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
+
+## Load data
 
 This module loads data from a condensed SDRF in an SCXA experiment to the sc-analytics collection in solr. These routines expect the collection to be created already, and work as an update to the content of the collection.
 
 ```
-$ export SOLR_HOST=192.168.99.100:32080
-$ export SOLR_COLLECTION=sc-analytics
-$ export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-106540.condensed-sdrf.tsv
+export SOLR_HOST=192.168.99.100:32080
+export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-106540.condensed-sdrf.tsv
 
-$ condSdrf2tsvForSCXAJSONFactorsIndex.sh $CONDENSED_SDRF_TSV | jsonGroupByCellID.sh | loadFactorsIndexToSolr.sh
+load_scxa_analytics_index.sh
 ```
+
+## Tests
+
+Tests are located in the `tests` directory and use bats. To run them, execute `bash tests/run-tests.sh`. The `tests` folder includes example data in tsv (a condensed SDRF) and in JSON (as it should be produced by the first step that translates the cond. SDRF to JSON).

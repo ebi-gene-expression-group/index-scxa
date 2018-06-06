@@ -1,0 +1,14 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker run --name my_solr -d -p 8983:8983 -t solr:7.3-alpine solr-create -c scxa-analytics-v2
+
+env:
+  - SOLR_HOST=localhost:8983
+
+script:
+  - sleep 20
+  - bash tests/run-tests.sh
