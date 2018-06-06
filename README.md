@@ -1,15 +1,16 @@
-# Modules for scxa-analytics solr index
+# Module for Single Cell Expression Atlas solr index (v0.1.0)
 
-Scripts to create and load data into the `scxa-analytics` solr index. Execution of tasks here require that `bin/` directory in the root of this repo is part of your path, and that the following executables are available:
+Scripts to create and load data into the `scxa-*` solr indexes (as of this version only analytics). Execution of tasks here require that `bin/` directory in the root of this repo is part of your path, and that the following executables are available:
 
 - awk
 - jq (1.5)
 - curl
 
+# `scxa-analytics` index
 
 ## Create schema
 
-To create the schema, set the envronment variable `SOLR_HOST` to the appropiate server, and execute as shown
+To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 
 ```
 export SOLR_HOST=192.168.99.100:32080
@@ -29,7 +30,7 @@ This module loads data from a condensed SDRF in an SCXA experiment to the sc-ana
 export SOLR_HOST=192.168.99.100:32080
 export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-106540.condensed-sdrf.tsv
 
-load_scxa_analytics_index.sh 
+load_scxa_analytics_index.sh
 ```
 
 ## Tests
