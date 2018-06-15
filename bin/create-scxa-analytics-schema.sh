@@ -271,7 +271,7 @@ printf "\n\nDelete update processor"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-updateprocessor":
   {
-    "name": "scxa_analytics_dedup"
+    "name": "scxa_analytics_v2_dedup"
   }
 }' http://$HOST/solr/$CORE/schema
 
