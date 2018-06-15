@@ -34,7 +34,7 @@
     [ $CELL_ID_COUNT = $UNIQUE_CELL_ID_COUNT ]
 }
 
-@test "Create collection on solr" {
+@test "[analytics] Create collection on solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on solr"
   fi
@@ -47,16 +47,17 @@
   [ "$status" -eq 0 ]
 }
 
-@test "Set no auto-create on solr" {
+@test "[analytics] Set no auto-create on solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on solr"
   fi
-  run set-no-autocreate.sh
+  export SOLR_COLLECTION=scxa-analytics-v2
+  run scxa-index-set-no-autocreate.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
 
-@test "Load schema to collection on solr" {
+@test "[analytics] Load schema to collection on solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on solr"
   fi
@@ -65,7 +66,7 @@
   [ "$status" -eq 0 ]
 }
 
-@test "Check that all fields are in the created schema" {
+@test "[analytics] Check that all fields are in the created schema" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping check of fields on schema"
   fi
@@ -74,7 +75,7 @@
   [ "$status" -eq 0 ]
 }
 
-@test "Load data to solr" {
+@test "[analytics] Load data to solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
@@ -84,7 +85,7 @@
   [ "$status" -eq 0 ]
 }
 
-@test "Check correctness of load" {
+@test "[analytics] Check correctness of load" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
