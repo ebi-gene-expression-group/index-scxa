@@ -9,3 +9,10 @@ CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "set-user-property": {"update.autoCreateFields":"false"}
 }' http://$HOST/solr/$CORE/config
+
+SCHEMA_VERSION=1
+CORE=${SOLR_COLLECTION:-"scxa-gene2experiment-v$SCHEMA_VERSION"}
+
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "set-user-property": {"update.autoCreateFields":"false"}
+}' http://$HOST/solr/$CORE/config
