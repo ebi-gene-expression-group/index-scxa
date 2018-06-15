@@ -6,8 +6,8 @@
 @test "[gene2experiment] Check valid json output from matrixMarktGenes2json" {
     export MATRIX_MARKT_ROWS_GENES_FILE=$BATS_TEST_DIRNAME/gene2experiment/matrixMarkt-genes.mtx_rows
     export EXP_ID="MyExp"
-    run matrixMarktGenes2json.sh  | jq .
-    [  "$status" -eq 0 ]
+    matrixMarktGenes2json.sh  | jq .
+    [  $? -eq 0 ]
 }
 
 @test "[gene2experiment] Create collection on solr" {
@@ -17,7 +17,7 @@
   if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
     skip "solr collection has been predifined on the current setup"
   fi
-  create-fake-collection-for-config-set.sh
+  #create-fake-collection-for-config-set.sh
   run create-scxa-gene2experiment-collection.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
