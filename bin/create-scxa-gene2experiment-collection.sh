@@ -10,4 +10,4 @@ NUMSHARDS=${SOLR_NUM_SHARD:-1}
 REPLICATES=${SOLR_NUM_REPL:-1}
 
 printf "\n\nCreating collection $CORE based on $HOST"
-curl "http://$HOST/solr/admin/collections?action=CREATE&name=$CORE&numShards=$NUMSHARDS&replicationFactor=$REPLICATES"
+curl "http://$HOST/solr/admin/collections?action=CREATE&name=$CORE&collection.configName=$CORE&numShards=$NUMSHARDS&replicationFactor=$REPLICATES"
