@@ -26,19 +26,19 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
-printf "\n\nDelete field gene_id"
+printf "\n\nDelete field bioentity_identifier"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field" :
   {
-    "name": "gene_id"
+    "name": "bioentity_identifier"
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field gene_id (string)"
+printf "\n\nCreate field bioentity_identifier (string)"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
-    "name": "gene_id",
+    "name": "bioentity_identifier",
     "type": "string",
     "docValues": true
   }
@@ -63,7 +63,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "enabled": "true",
     "signatureField": "id",
     "overwriteDupes": "true",
-    "fields": "gene_id,experiment_accession",
+    "fields": "bioentity_identifier,experiment_accession",
     "signatureClass": "solr.processor.Lookup3Signature"
   }
 }' http://$HOST/solr/$CORE/config
