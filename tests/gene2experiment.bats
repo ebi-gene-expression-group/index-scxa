@@ -54,12 +54,13 @@
   [ "$status" -eq 0 ]
 }
 
-# @test "[gene2experiment] Check correctness of load" {
-#   if [ -z ${SOLR_HOST+x} ]; then
-#     skip "SOLR_HOST not defined, skipping load to SOLR"
-#   fi
-#   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
-#   run check-index-content.sh
-#   echo "output = ${output}"
-#   [ "$status" -eq 0 ]
-# }
+@test "[gene2experiment] Check correctness of load" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to SOLR"
+  fi
+  export MATRIX_MARKT_ROWS_GENES_FILE=$BATS_TEST_DIRNAME/gene2experiment/matrixMarkt-genes.mtx_rows
+  export EXP_ID="MyExp"
+  run gene2experiment-check-index-content.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
