@@ -64,3 +64,24 @@
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
+
+@test "[gene2experiment] Delete data for experiment" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to SOLR"
+  fi
+  export EXP_ID="MyExp"
+  run delete-scxa-gene2experiment-exp-entries.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
+@test "[gene2experiment] Check records deletion" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to SOLR"
+  fi
+  export MATRIX_MARKT_ROWS_GENES_FILE=/dev/null
+  export EXP_ID="MyExp"
+  run delete-scxa-gene2experiment-exp-entries.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
