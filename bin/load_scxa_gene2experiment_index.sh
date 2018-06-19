@@ -2,6 +2,7 @@
 set -e
 
 [ -z ${MATRIX_MARKT_ROWS_GENES_FILE+x} ] && echo "MATRIX_MARKT_ROWS_GENES_FILE env var is needed." && exit 1
+[ -f ${MATRIX_MARKT_ROWS_GENES_FILE} ] || ( echo "MATRIX_MARKT_ROWS_GENES_FILE pointing to $MATRIX_MARKT_ROWS_GENES_FILE is not a file or does not exist." && exit 1 )
 [ -z ${EXP_ID+x} ] && echo "EXP_ID env var is needed." && exit 1
 
 
