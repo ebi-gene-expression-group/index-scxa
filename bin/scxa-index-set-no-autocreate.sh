@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=2
+SCHEMA_VERSION=${SCHEMA_VERSION:-2}
 
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}

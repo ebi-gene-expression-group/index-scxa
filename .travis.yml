@@ -11,4 +11,5 @@ env:
 
 script:
   - sleep 20
+  - docker exec -it --user=solr my_solr bin/solr create_core -c scxa-gene2experiment-v1
   - bash tests/run-tests.sh
