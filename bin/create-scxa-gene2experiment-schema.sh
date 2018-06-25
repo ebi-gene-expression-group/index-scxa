@@ -49,7 +49,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 printf "\n\nDelete update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-updateprocessor": "'$CORE'_dedup"
-}' http://$HOST/solr/$CORE/schema
+}' http://$HOST/solr/$CORE/config
 
 printf "\n\nCreate update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
