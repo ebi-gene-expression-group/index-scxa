@@ -7,7 +7,7 @@ CORE=${SOLR_COLLECTION:-"scxa-gene2experiment-v$SCHEMA_VERSION"}
 
 #############################################################################################
 
-printf "\n\nDelete field experiment_accession"
+printf "\n\nDelete field experiment_accession "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field":
   {
@@ -15,7 +15,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field experiment_accession (string)"
+printf "\n\nCreate field experiment_accession (string) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
@@ -26,7 +26,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
-printf "\n\nDelete field bioentity_identifier"
+printf "\n\nDelete field bioentity_identifier "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field" :
   {
@@ -34,7 +34,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field bioentity_identifier (string)"
+printf "\n\nCreate field bioentity_identifier (string) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
@@ -46,15 +46,12 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 
-printf "\n\nDelete update processor"
+printf "\n\nDelete update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-updateprocessor":
-  {
-    "name": "'$CORE'_dedup"
-  }
-}' http://$HOST/solr/$CORE/schema
+  "delete-updateprocessor": "'$CORE'_dedup"
+}' http://$HOST/solr/$CORE/config
 
-printf "\n\nCreate update processor"
+printf "\n\nCreate update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":
   {

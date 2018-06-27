@@ -7,7 +7,7 @@ CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
 
 #############################################################################################
 
-printf "\n\nDelete field experiment_accession"
+printf "\n\nDelete field experiment_accession "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field":
   {
@@ -15,7 +15,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field experiment_accession (string)"
+printf "\n\nCreate field experiment_accession (string) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
@@ -28,8 +28,8 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 
 #############################################################################################
-# TODO hacer congruente con cell_id
-printf "\n\nDelete field cell_id"
+
+printf "\n\nDelete field cell_id "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field" :
   {
@@ -37,7 +37,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field cell_id (string)"
+printf "\n\nCreate field cell_id (string) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
@@ -49,7 +49,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 
-printf "\n\nDelete field factors"
+printf "\n\nDelete field factors "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field":
   {
@@ -57,7 +57,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field factors (string, multiValued)"
+printf "\n\nCreate field factors (string, multiValued) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
@@ -70,7 +70,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 
-printf "\n\nDelete field characteristics"
+printf "\n\nDelete field characteristics "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field":
   {
@@ -78,7 +78,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field characteristics (string, multiValued)"
+printf "\n\nCreate field characteristics (string, multiValued) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
@@ -92,16 +92,16 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 #############################################################################################
 # Deletion of copy field needs to come before the deletion of the actual fields.
 # 1.1
-printf "\n\nDelete copy field for facet_factor_*"
+printf "\n\nDelete copy field rule for facet_factor_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-copy-field":{
-     "source":"factor_*",
+     "source": "factor_*",
      "dest": "facet_factor_*" }
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
 # 1.2
-printf "\n\nDelete dynamic field factor_*"
+printf "\n\nDelete dynamic field rule factor_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-dynamic-field":
   {
@@ -109,7 +109,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 # 1.3
-printf "\n\nCreate dynamic rule factor_* (lowercase, multiValued)"
+printf "\n\nCreate dynamic field rule factor_* (lowercase, multiValued) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
@@ -121,7 +121,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 # 1.4
-printf "\n\nDelete dynamic field facet_factor_*"
+printf "\n\nDelete dynamic field rule facet_factor_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-dynamic-field":
   {
@@ -129,7 +129,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 # 1.5
-printf "\n\nCreate dynamic rule facet_factor_* (lowercase, multiValued)"
+printf "\n\nCreate dynamic field rule facet_factor_* (lowercase, multiValued) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
@@ -142,10 +142,10 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 # 1.6
-printf "\n\nCreate copy field for facet_factor_* (lowercase, multiValued)"
+printf "\n\nCreate copy field rule factor_* -> facet_factor_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
-     "source":"factor_*",
+     "source": "factor_*",
      "dest": "facet_factor_*" }
 }' http://$HOST/solr/$CORE/schema
 
@@ -154,24 +154,26 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 #############################################################################################
 # Deletion of copy field needs to come before the deletion of the actual fields.
 # 2.1
-printf "\n\nDelete copy field for facet_characteristic_*"
+printf "\n\nDelete copy field rule characteristic_* -> facet_characteristic_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-copy-field":{
-     "source":"characteristic_*",
+     "source": "characteristic_*",
      "dest": "facet_characteristic_*" }
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
 # 2.2
-printf "\n\nDelete dynamic field characteristic_*"
+printf "\n\nDelete dynamic field rule characteristic_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-dynamic-field":
   {
     "name": "characteristic_*"
   }
 }' http://$HOST/solr/$CORE/schema
+
+#############################################################################################
 # 2.3
-printf "\n\nCreate dynamic rule characteristic_* (lowercase, multiValued)"
+printf "\n\nCreate dynamic field rule characteristic_* (lowercase, multiValued) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
@@ -183,15 +185,17 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 # 2.4
-printf "\n\nDelete dynamic field facet_characteristic_*"
+printf "\n\nDelete dynamic field rule facet_characteristic_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-dynamic-field":
   {
     "name": "facet_characteristic_*"
   }
 }' http://$HOST/solr/$CORE/schema
+
+#############################################################################################
 # 2.5
-printf "\n\nCreate dynamic rule facet_characteristic_* (lowercase, multiValued)"
+printf "\n\nCreate dynamic field rule facet_characteristic_* (lowercase, multiValued) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
@@ -204,18 +208,16 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 # 2.6
-printf "\n\nCreate copy field for facet_characteristic_* (lowercase, multiValued)"
+printf "\n\nCreate copy field rule characteristic_* -> facet_characteristic_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
-     "source":"characteristic_*",
+     "source": "characteristic_*",
      "dest": "facet_characteristic_*" }
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
 
-
-
-printf "\n\nDelete field conditions_search"
+printf "\n\nDelete field conditions_search "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field" :
   {
@@ -223,7 +225,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nDelete field type text_en_tight"
+printf "\n\nDelete field type text_en_tight "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field-type":
   {
@@ -231,7 +233,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field type text_en_tight"
+printf "\n\nCreate field type text_en_tight "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field-type": {
     "name": "text_en_tight",
@@ -256,7 +258,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field conditions_search (text_en_tight)"
+printf "\n\nCreate field conditions_search (text_en_tight) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
@@ -267,15 +269,12 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 
 #############################################################################
-printf "\n\nDelete update processor"
+printf "\n\nDelete update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-updateprocessor":
-  {
-    "name": "scxa_analytics_v2_dedup"
-  }
-}' http://$HOST/solr/$CORE/schema
+  "delete-updateprocessor": "scxa_analytics_v2_dedup"
+}' http://$HOST/solr/$CORE/config
 
-printf "\n\nCreate update processor"
+printf "\n\nCreate update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":
   {
