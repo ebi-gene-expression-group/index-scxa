@@ -274,6 +274,15 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-updateprocessor": "scxa_analytics_v2_dedup"
 }' http://$HOST/solr/$CORE/config
 
+
+printf "\n\nDisable autoCreateFields (aka “Data driven schema”)"
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "set-user-property": {
+    "update.autoCreateFields": "false"
+  }
+}' http://$HOST/solr/$CORE/config
+
+
 printf "\n\nCreate update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":

@@ -24,7 +24,7 @@ You can override the default solr schema name by setting `SOLR_COLLECTION`, but 
 
 ## Load data
 
-This module loads data from a condensed SDRF in an SCXA experiment to the sc-analytics collection in solr. These routines expect the collection to be created already, and work as an update to the content of the collection.
+This module loads data from a condensed SDRF in an SCXA experiment to the scxa-analytics-v? collection in Solr. These routines expect the collection to be created already, and work as an update to the content of the collection.
 
 ```
 export SOLR_HOST=192.168.99.100:32080
