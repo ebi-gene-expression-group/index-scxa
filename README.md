@@ -33,6 +33,17 @@ export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-
 load_scxa_analytics_index.sh
 ```
 
+## Delete an experiment
+
+In order to delete a particular experiment's analytics solr documents based on its accession from a live index, do:
+
+```
+export EXP_ID=desired-exp-identifier
+export SOLR_HOST=192.168.99.100:32080
+
+delete_scxa_analytics_index.sh
+```
+
 ## Tests
 
 Tests are located in the `tests` directory and use bats. To run them, execute `bash tests/run-tests.sh`. The `tests` folder includes example data in tsv (a condensed SDRF) and in JSON (as it should be produced by the first step that translates the cond. SDRF to JSON).
@@ -64,6 +75,18 @@ export MATRIX_MARKT_ROWS_GENES_FILE=../path/to/E-GEOD-106540.aggregated_counts.m
 
 load_scxa_gene2experiment_index.sh
 ```
+
+## Delete an experiment
+
+In order to delete a particular experiment's gene2experiment solr documents based on its accession from a live index, do:
+
+```
+export EXP_ID=desired-exp-identifier
+export SOLR_HOST=192.168.99.100:32080
+
+delete-scxa-gene2experiment-exp-entries.sh
+```
+
 
 ## Tests
 
