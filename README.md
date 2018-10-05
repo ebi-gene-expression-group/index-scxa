@@ -1,3 +1,5 @@
+[![Docker Repository on Quay](https://quay.io/repository/ebigxa/index-scxa-module/status "Docker Repository on Quay")](https://quay.io/repository/ebigxa/index-scxa-module)
+
 # Module for Single Cell Expression Atlas solr index (v0.1.0-dev)
 
 Scripts to create and load data into the `scxa-*` solr indexes (for analytics and gene2experiment). Execution of tasks here require that `bin/` directory in the root of this repo is part of the path, and that the following executables are available:
@@ -91,3 +93,20 @@ delete-scxa-gene2experiment-exp-entries.sh
 ## Tests
 
 Tests are located in the `tests` directory and use bats. To run them, execute `bash tests/run-tests.sh`. The `tests` folder includes example data in matrix markt format.
+
+# Container
+
+The container is available for use at quay.io/ebigxa/index-scxa-module at latest or any of the tags after 0.2.0, so it could be used like this for example:
+
+```
+docker run -v /local_data:/data \
+       -e dbConfig=<your-database-connection-string-for-postgres> \
+       -e EXP_ID=<the-accession-of-experiment> \
+       -e SOLR_HOST=<solr-host:solr-port> \
+       -e MATRIX_MARKT_ROWS_GENES_FILE=<path-inside-container-for-matrixMarkt-file> \
+       --entrypoint load_scxa_gene2experiment_index.sh \
+       quay.io/ebigxa/index-scxa-module:latest
+```
+
+Please note that `MATRIX_MARKT_ROWS_GENES_FILE` needs to make sense with how you mount
+data inside the container. You can change entrypoint and env variables given to use the other scripts mentioned above.
