@@ -100,7 +100,6 @@ The container is available for use at quay.io/ebigxa/index-scxa-module at latest
 
 ```
 docker run -v /local_data:/data \
-       -e dbConfig=<your-database-connection-string-for-postgres> \
        -e EXP_ID=<the-accession-of-experiment> \
        -e SOLR_HOST=<solr-host:solr-port> \
        -e MATRIX_MARKT_ROWS_GENES_FILE=<path-inside-container-for-matrixMarkt-file> \
