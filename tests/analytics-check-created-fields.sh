@@ -14,7 +14,7 @@ curl "http://$HOST/solr/$CORE/schema?wt=json" \
   | sort > loaded_fields.txt
 
 echo "Parsing creationg script"
-grep -A 2 '\("add-field"\|"add-dynamic-field"\)' bin/create-scxa-analytics-schema.sh \
+grep -A 2 '\("add-field"\|"add-dynamic-field"\)' "$(dirname "${BASH_SOURCE[0]}")"/../bin/create-scxa-analytics-schema.sh \
   | grep '"name"' | awk -F':' '{ print $2 }' | sed 's/[\", ]//g' \
   | sort > expected_loaded_fields.txt
 
