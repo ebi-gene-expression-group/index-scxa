@@ -1,12 +1,14 @@
 [![Docker Repository on Quay](https://quay.io/repository/ebigxa/index-scxa-module/status "Docker Repository on Quay")](https://quay.io/repository/ebigxa/index-scxa-module)
 
-# Module for Single Cell Expression Atlas solr index (v0.1.0-dev)
+# Module for Single Cell Expression Atlas solr index (v0.2.0)
 
 Scripts to create and load data into the `scxa-*` solr indexes (for analytics and gene2experiment). Execution of tasks here require that `bin/` directory in the root of this repo is part of the path, and that the following executables are available:
 
 - awk
 - jq (1.5)
 - curl
+
+Version 0.2.0 was used for loading the August/September 2018 Single Cell Expression Atlas release.
 
 # `scxa-analytics` index v2
 
