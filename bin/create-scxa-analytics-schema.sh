@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=2
+SCHEMA_VERSION=3
 
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
@@ -25,8 +25,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-
-
 #############################################################################################
 
 printf "\n\nDelete field cell_id "
@@ -49,40 +47,19 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 
-printf "\n\nDelete field factors "
+printf "\n\nDelete field ontology_annotation "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field":
   {
-    "name": "factors"
+    "name": "ontology_annotation"
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field factors (string, multiValued) "
+printf "\n\nCreate ontology_annotation (string, multiValued) "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
-    "name": "factors",
-    "type": "string",
-    "multiValued": true,
-    "docValues": true
-  }
-}' http://$HOST/solr/$CORE/schema
-
-#############################################################################################
-
-printf "\n\nDelete field characteristics "
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-field":
-  {
-    "name": "characteristics"
-  }
-}' http://$HOST/solr/$CORE/schema
-
-printf "\n\nCreate field characteristics (string, multiValued) "
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "add-field":
-  {
-    "name": "characteristics",
+    "name": "ontology_annotation",
     "type": "string",
     "multiValued": true,
     "docValues": true
@@ -183,7 +160,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-#############################################################################################
+# #############################################################################################
 # 2.4
 printf "\n\nDelete dynamic field rule facet_characteristic_* "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
@@ -216,39 +193,32 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
+# Fields required for BioSolr
 
-printf "\n\nDelete field conditions_search "
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-field" :
-  {
-    "name": "conditions_search"
-  }
-}' http://$HOST/solr/$CORE/schema
-
-printf "\n\nDelete field type text_en_tight "
+printf "\n\nDelete field type text_general "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field-type":
   {
-    "name": "text_en_tight"
+    "name": "text_general"
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field type text_en_tight "
+printf "\n\nCreate field type text_general "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field-type": {
-    "name": "text_en_tight",
+    "name": "text_general",
     "class": "solr.TextField",
     "positionIncrementGap": "100",
     "analyzer" : {
       "tokenizer": {
-        "class": "solr.WhitespaceTokenizerFactory"
+        "class": "solr.StandardTokenizerFactory"
       },
       "filters": [
         {
           "class":"solr.LowerCaseFilterFactory"
         },
         {
-          "class":"solr.EnglishPossessiveFilterFactory"
+          "class":"solr.LowerCaseFilterFactory"
         },
         {
           "class":"solr.PorterStemFilterFactory"
@@ -258,20 +228,84 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field conditions_search (text_en_tight) "
+printf "\n\nDelete dynamic field rule *_rel_iris "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "add-field":
+  "delete-dynamic-field":
   {
-    "name": "conditions_search",
-    "type": "text_en_tight"
+    "name": "*_rel_iris"
   }
 }' http://$HOST/solr/$CORE/schema
 
+printf "\n\nCreate dynamic field rule *_rel_iris (string, multiValued) "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-dynamic-field":
+  {
+    "name": "*_rel_iris",
+    "type": "string",
+    "multiValued": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nDelete dynamic field rule *_rel_labels "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-dynamic-field":
+  {
+    "name": "*_rel_labels"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate dynamic field rule *_rel_iris (text_general, multiValued) "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-dynamic-field":
+  {
+    "name": "*_rel_labels",
+    "type": "text_general",
+    "multiValued": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nDelete dynamic field rule *_s "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-dynamic-field":
+  {
+    "name": "*_s"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate dynamic field rule *_s (string, multiValued) "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-dynamic-field":
+  {
+    "name": "*_s",
+    "type": "string",
+    "multiValued": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nDelete dynamic field rule *_t "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-dynamic-field":
+  {
+    "name": "*_t"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate dynamic field rule *_t (string, multiValued) "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-dynamic-field":
+  {
+    "name": "*_t",
+    "type": "text_general",
+    "multiValued": true
+  }
+}' http://$HOST/solr/$CORE/schema
 
 #############################################################################
+
+
 printf "\n\nDelete update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-updateprocessor": "scxa_analytics_v2_dedup"
+  "delete-updateprocessor": "scxa_analytics_v3_dedup"
 }' http://$HOST/solr/$CORE/config
 
 
@@ -287,12 +321,32 @@ printf "\n\nCreate update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":
   {
-    "name": "scxa_analytics_v2_dedup"
+    "name": "scxa_analytics_v3_dedup"
     "class": "solr.processor.SignatureUpdateProcessorFactory",
     "enabled": "true",
     "signatureField": "id",
     "overwriteDupes": "true",
-    "fields": "cell_id,experiment_accession",
+    "fields": "cell_id,experiment_accession,ontology_annotation",
     "signatureClass": "solr.processor.Lookup3Signature"
+  }
+}' http://$HOST/solr/$CORE/config
+
+
+printf "\n\nDelete ontology expansion update processor "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-updateprocessor": "scxa_analytics_v3_ontology_expansion"
+}' http://$HOST/solr/$CORE/config
+
+
+printf "\n\nCreate ontology expansion update processor "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-updateprocessor":
+  {
+    "name": "scxa_analytics_v3_ontology_expansion"
+    "runtimeLib": true,
+    "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
+    "enabled": "true",
+    "annotationField": "ontology_annotation",
+    "ontologyURI": "https://www.ebi.ac.uk/efo/efo.owl"
   }
 }' http://$HOST/solr/$CORE/config

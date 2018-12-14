@@ -6,7 +6,7 @@ set -e
 export SCHEMA_VERSION=3
 export SOLR_COLLECTION=scxa-analytics-v$SCHEMA_VERSION
 export PROCESSOR=scxa_analytics_v$SCHEMA_VERSION\_dedup
-export ONTOLOGY_PROCESSOR=$SOLR_COLLECTION\_ontology_expansion
+export ONTOLOGY_PROCESSOR=scxa_analytics_v$SCHEMA_VERSION\_ontology_expansion
 
 echo "Loading cond. sdrf $CONDENSED_SDRF_TSV into host $SOLR_HOST collection $SOLR_COLLECTION..."
 

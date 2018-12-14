@@ -15,6 +15,6 @@ install:
 
 script:
   - sleep 20
-  - docker exec -it --user=solr my_solr bin/solr create_core -c scxa-analytics-v2
+  - docker exec -it --user=solr my_solr bin/solr create_core -c scxa-analytics-v3
   - docker exec -it --user=solr my_solr bin/solr create_core -c scxa-gene2experiment-v1
   - docker run -i --net mynet -v $( pwd )/tests:/usr/local/tests -e SOLR_HOST=$SOLR_HOST --entrypoint=/usr/local/tests/run_tests_inside_container.sh test/index-scxa-module
