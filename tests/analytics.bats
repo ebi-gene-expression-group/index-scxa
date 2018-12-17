@@ -1,3 +1,7 @@
+setup() {
+  export SOLR_COLLECTION=scxa-analytics-v3
+}
+
 @test "Check that curl is in the path" {
     run which curl
     [ "$status" -eq 0 ]
@@ -39,7 +43,20 @@
     [ $CELL_ID_COUNT = $UNIQUE_CELL_ID_COUNT ]
 }
 
-@test "[analytics] Load BioSolr jar in .system collection on Solr" {
+@test "[analytics] Create collection on solr" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping loading of schema on solr"
+  fi
+  if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
+    skip "solr collection has been predifined on the current setup"
+  fi
+  run create-scxa-analytics-config-set.sh
+  run create-scxa-analytics-collection.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
+@test "[analytics] Load BioSolr jar in .system and analytics collections on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, BioSolr loading on solr"
   fi
@@ -48,24 +65,10 @@
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Create collection on solr" {
-  if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping loading of schema on solr"
-  fi
-  if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
-    skip "solr collection has been predifined on the current setup"
-  fi
-  create-fake-collection-for-config-set.sh
-  run create-scxa-analytics-collection.sh
-  echo "output = ${output}"
-  [ "$status" -eq 0 ]
-}
-
 @test "[analytics] Set no auto-create on solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on solr"
   fi
-  export SOLR_COLLECTION=scxa-analytics-v3
   run scxa-index-set-no-autocreate.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]

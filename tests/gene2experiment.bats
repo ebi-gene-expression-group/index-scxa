@@ -1,3 +1,7 @@
+setup() {
+  export SOLR_COLLECTION=scxa-gene2experiment-v1
+}
+
 @test "[gene2experiment] Check that matrixMarktGenes2json is in the path" {
     run which matrixMarktGenes2json.sh
     [ "$status" -eq 0 ]
@@ -15,9 +19,9 @@
     skip "SOLR_HOST not defined, skipping loading of schema on solr"
   fi
   if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
-    skip "solr collection has been predifined on the current setup"
+    skip "solr collection has been predefined on the current setup"
   fi
-  #create-fake-collection-for-config-set.sh
+  run create-scxa-gene2experiment-config-set.sh
   run create-scxa-gene2experiment-collection.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
