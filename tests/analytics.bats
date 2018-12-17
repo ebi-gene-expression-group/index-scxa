@@ -39,6 +39,15 @@
     [ $CELL_ID_COUNT = $UNIQUE_CELL_ID_COUNT ]
 }
 
+@test "[analytics] Load BioSolr jar in .system collection on Solr" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, BioSolr loading on solr"
+  fi
+  run create-scxa-analytics-biosolr-lib.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
 @test "[analytics] Create collection on solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on solr"
