@@ -107,7 +107,7 @@ setup() {
   # the server.
   # This was introduced since the use of BioSolr seems to have some delaying
   # effect in making the results accessible.
-  sleep 20
+  sleep 120
 }
 
 @test "[analytics] Check correctness of load" {
