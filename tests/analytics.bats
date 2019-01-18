@@ -56,15 +56,6 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Load BioSolr jar in .system and analytics collections on Solr" {
-  if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, BioSolr loading on solr"
-  fi
-  run create-scxa-analytics-biosolr-lib.sh
-  echo "output = ${output}"
-  [ "$status" -eq 0 ]
-}
-
 @test "[analytics] Set no auto-create on solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on solr"
