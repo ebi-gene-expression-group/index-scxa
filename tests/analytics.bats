@@ -93,17 +93,6 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-
-@test "[analytics] Check correctness of load" {
-  if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping load to SOLR"
-  fi
-  export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
-  run analytics-check-index-content.sh
-  echo "output = ${output}"
-  [ "$status" -eq 0 ]
-}
-
 @test "[analytics] Load additional dataset for deletion testing" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
@@ -122,6 +111,16 @@ setup() {
   fi
   export EXP_ID=E-GEOD-DELETE
   run delete_scxa_analytics_index.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
+@test "[analytics] Check correctness of load" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to SOLR"
+  fi
+  export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
+  run analytics-check-index-content.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
