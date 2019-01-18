@@ -93,13 +93,6 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Wait for load to finish" {
-  # TODO this should be replaced for some actual waiting logic that pokes
-  # the server.
-  # This was introduced since the use of BioSolr seems to have some delaying
-  # effect in making the results accessible.
-  sleep 120
-}
 
 @test "[analytics] Check correctness of load" {
   if [ -z ${SOLR_HOST+x} ]; then
