@@ -13,7 +13,7 @@ cell_id="SRR6257788"
 
 org_part=$(grep $cell_id $CONDENSED_SDRF_TSV | grep 'organism part' | awk -F'\t' '{ print $6 }')
 
-# BioSolr seems to do the ontology expansion on the background and not blocking
+# BioSolr seems to do the ontology expansion in the background and not blocking
 # the loading call. As such, we need to wait during testing to make sure that
 # elements have been loaded
 pings=0
@@ -29,11 +29,17 @@ while [ "$numRecordsLoaded" -eq 0 ]; do
 done
 echo "Pings: $pings"
 
+response=$(curl "http://$HOST/solr/$CORE/select?q=cell_id:$cell_id%20AND%20characteristic_name:$characteristic" | jq .response)
 
-echo '[{ "characteristic_name": ["'$characteristic'"], "characteristic_value": ["'$org_part'"]}]' > expected.json
+# Check number of returned documents
+numberOfDocuments=$(echo "${response}" | jq .numFound)
+if [ "$numberOfDocuments" -ne 1 ]; then
+    echo "Expected 1 document, returned $numberOfDocuments instead"
+    exit 1
+fi
 
-curl "http://$HOST/solr/$CORE/select?fl=characteristic_name,characteristic_value&q=cell_id:$cell_id%20AND%20characteristic_name:$characteristic" | \
-jq '.response.docs' > result.json
+# Check if the organism part returned has the right value
+echo ${response} | jq -e --arg org_part "$org_part" '.docs[0].characteristic_value | contains([$org_part])'
 
-# Compare expected and resulting json
-cmp <(jq -cS . result.json) <(jq -cS . expected.json)
+# Check ontology expansion was successful - we only care about the labels for the ontology terms, rather than the URIs
+echo ${response} | jq -e '.docs | map(has("ontology_annotation_label_t", "ontology_annotation_parent_labels_t", "ontology_annotation_ancestors_labels_t", "ontology_annotation_part_of_rel_labels_t", "ontology_annotation_develops_from_rel_labels_t")) | all'
