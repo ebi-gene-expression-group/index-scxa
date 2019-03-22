@@ -326,7 +326,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "enabled": "true",
     "signatureField": "id",
     "overwriteDupes": "true",
-    "fields": "cell_id,experiment_accession,ontology_annotation",
+    "fields": "experiment_accession,cell_id,characteristic_name,factor_name",
     "signatureClass": "solr.processor.Lookup3Signature"
   }
 }' http://$HOST/solr/$CORE/config
