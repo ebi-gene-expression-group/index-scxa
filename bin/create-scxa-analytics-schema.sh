@@ -195,39 +195,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 #############################################################################################
 # Fields required for BioSolr
 
-printf "\n\nDelete field type text_general "
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-field-type":
-  {
-    "name": "text_general"
-  }
-}' http://$HOST/solr/$CORE/schema
-
-printf "\n\nCreate field type text_general "
-curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "add-field-type": {
-    "name": "text_general",
-    "class": "solr.TextField",
-    "positionIncrementGap": "100",
-    "analyzer" : {
-      "tokenizer": {
-        "class": "solr.StandardTokenizerFactory"
-      },
-      "filters": [
-        {
-          "class":"solr.LowerCaseFilterFactory"
-        },
-        {
-          "class":"solr.LowerCaseFilterFactory"
-        },
-        {
-          "class":"solr.PorterStemFilterFactory"
-        }
-      ]
-    }
-  }
-}' http://$HOST/solr/$CORE/schema
-
 printf "\n\nDelete dynamic field rule *_rel_iris "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-dynamic-field":
