@@ -12,28 +12,6 @@ Version 0.2.0 was used for loading the August/September 2018 Single Cell Express
 
 # `scxa-analytics` index v3
 
-## Enable BioSolr
-`scxa-analytics-v3` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 2 options:
-
-### Option 1: Local `.jar` file
-
-Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory.
-
-### Option 2: Blob store API
-
-You can use the BioSolr jar as a runtime library stored in the blob store API. In order to enable the use of runtime libraries, you must start your Solr instance with the flag `-Denable.runtime.lib=true`.
-
-To load the jar, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
-
-```
-export SOLR_HOST=192.168.99.100:32080
-
-create-scxa-analytics-biosolr-lib.sh
-```
-
-You can override the default target Solr collection by setting `SOLR_COLLECTION`. You can also provide your own path to the BioSolr jar file by setting `BIOSOLR_JAR_PATH`.
-
-
 ## Create schema
 
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
@@ -58,6 +36,27 @@ export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-
 
 load_scxa_analytics_index.sh
 ```
+
+## Enable BioSolr
+`scxa-analytics-v3` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 2 options:
+
+### Option 1: Local `.jar` file
+
+Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory.
+
+### Option 2: Blob store API
+
+You can use the BioSolr jar as a runtime library stored in the blob store API. In order to enable the use of runtime libraries, you must start your Solr instance with the flag `-Denable.runtime.lib=true`.
+
+To load the jar, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
+
+```
+export SOLR_HOST=192.168.99.100:32080
+
+create-scxa-analytics-biosolr-lib.sh
+```
+
+You can override the default target Solr collection by setting `SOLR_COLLECTION`. You can also provide your own path to the BioSolr jar file by setting `BIOSOLR_JAR_PATH`.
 
 ## Delete an experiment
 
