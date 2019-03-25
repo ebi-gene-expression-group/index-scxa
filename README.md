@@ -1,8 +1,8 @@
 [![Docker Repository on Quay](https://quay.io/repository/ebigxa/index-scxa-module/status "Docker Repository on Quay")](https://quay.io/repository/ebigxa/index-scxa-module)
 
-# Module for Single Cell Expression Atlas solr index (v0.2.0)
+# Module for Single Cell Expression Atlas Solr index (v0.3.0)
 
-Scripts to create and load data into the `scxa-*` solr indexes (for analytics and gene2experiment). Execution of tasks here require that `bin/` directory in the root of this repo is part of the path, and that the following executables are available:
+Scripts to create and load data into the `scxa-*` Solr indexes (for analytics and gene2experiment). Execution of tasks here require that `bin/` directory in the root of this repo is part of the path, and that the following executables are available:
 
 - awk
 - jq (1.5)
@@ -10,7 +10,7 @@ Scripts to create and load data into the `scxa-*` solr indexes (for analytics an
 
 Version 0.2.0 was used for loading the August/September 2018 Single Cell Expression Atlas release.
 
-# `scxa-analytics` index v2
+# `scxa-analytics` index v3
 
 ## Create schema
 
@@ -24,7 +24,7 @@ create-scxa-analytics-collection.sh
 create-scxa-analytics-schema.sh
 ```
 
-You can override the default solr schema name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
+You can override the default target Solr collection name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
 
 ## Load data
 
@@ -36,6 +36,27 @@ export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-
 
 load_scxa_analytics_index.sh
 ```
+
+## Enable BioSolr
+`scxa-analytics-v3` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 2 options:
+
+### Option 1: Local `.jar` file
+
+Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory.
+
+### Option 2: Blob store API
+
+You can use the BioSolr jar as a runtime library stored in the blob store API. In order to enable the use of runtime libraries, you must start your Solr instance with the flag `-Denable.runtime.lib=true`.
+
+To load the jar, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
+
+```
+export SOLR_HOST=192.168.99.100:32080
+
+create-scxa-analytics-biosolr-lib.sh
+```
+
+You can override the default target Solr collection by setting `SOLR_COLLECTION`. You can also provide your own path to the BioSolr jar file by setting `BIOSOLR_JAR_PATH`.
 
 ## Delete an experiment
 
@@ -66,7 +87,7 @@ create-scxa-gene2experiment-collection.sh
 create-scxa-gene2experiment-schema.sh
 ```
 
-You can override the default solr schema name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
+You can override the default target Solr collection name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
 
 ## Load data
 
@@ -82,7 +103,7 @@ load_scxa_gene2experiment_index.sh
 
 ## Delete an experiment
 
-In order to delete a particular experiment's gene2experiment solr documents based on its accession from a live index, do:
+In order to delete a particular experiment's gene2experiment Solr documents based on its accession from a live index, do:
 
 ```
 export EXP_ID=desired-exp-identifier

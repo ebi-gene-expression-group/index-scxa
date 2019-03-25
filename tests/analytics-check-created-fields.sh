@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=2
+SCHEMA_VERSION=3
 
 set -e
 
@@ -10,13 +10,12 @@ CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
 echo "Retrieving fields in the schema"
 curl "http://$HOST/solr/$CORE/schema?wt=json" \
   | jq '.schema.fields + .schema.dynamicFields | .[].name ' | sed s/\"//g \
-  | grep -v '^\*' | grep -v '^_' | grep -v '^id$' | grep -v '^attr_\*$' \
   | sort > loaded_fields.txt
 
-echo "Parsing creationg script"
+echo "Parsing creation script"
 grep -A 2 '\("add-field"\|"add-dynamic-field"\)' "$(dirname "${BASH_SOURCE[0]}")"/../bin/create-scxa-analytics-schema.sh \
   | grep '"name"' | awk -F':' '{ print $2 }' | sed 's/[\", ]//g' \
   | sort > expected_loaded_fields.txt
 
-echo "Running cmp"
-cmp loaded_fields.txt expected_loaded_fields.txt
+echo "Running comm"
+comm -13 loaded_fields.txt expected_loaded_fields.txt 
