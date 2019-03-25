@@ -272,7 +272,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 printf "\n\nDelete update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-updateprocessor": "scxa_analytics_v3_dedup"
+  "delete-updateprocessor": "'$CORE'_dedup"
 }' http://$HOST/solr/$CORE/config
 
 
@@ -301,7 +301,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 printf "\n\nDelete ontology expansion update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "delete-updateprocessor": "scxa_analytics_v3_ontology_expansion"
+  "delete-updateprocessor": "'$CORE'_ontology_expansion"
 }' http://$HOST/solr/$CORE/config
 
 
@@ -309,7 +309,7 @@ printf "\n\nCreate ontology expansion update processor "
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":
   {
-    "name": "scxa_analytics_v3_ontology_expansion"
+    "name": "'$CORE'_ontology_expansion"
     "runtimeLib": true,
     "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "enabled": "true",
