@@ -8,7 +8,7 @@ env:
 
 before_install:
   - docker network create mynet
-  - docker run --net mynet --name my_solr -v $(pwd)/lib/solr-ontology-update-processor-1.1.jar:/opt/solr/server/solr/lib/solr-ontology-update-processor-1.1.jar -d -p 8983:8983 -t solr:7.1-alpine -DzkRun -Denable.runtime.lib=true
+  - docker run --net mynet --name my_solr -v $(pwd)/lib/solr-ontology-update-processor-1.1.jar:/opt/solr/server/solr/lib/solr-ontology-update-processor-1.1.jar -d -p 8983:8983 -t solr:7.1-alpine -DzkRun -Denable.runtime.lib=true -m 2g
 
 install:
   - docker build -t test/index-scxa-module .
