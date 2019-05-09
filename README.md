@@ -21,6 +21,7 @@ export SOLR_HOST=192.168.99.100:32080
 create-scxa-analytics-config-set.sh
 create-scxa-analytics-collection.sh
 ```
+
 ## Enable BioSolr
 `scxa-analytics-v3` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 2 options:
 
