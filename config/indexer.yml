@@ -1,0 +1,47 @@
+# Ontology config details
+# URL of the Ontology SOLR endpoint
+ontologySolrUrl: http://localhost:8983/solr/efo-ontology
+# URL of the document SOLR endpoint
+documentsSolrUrl: http://localhost:8983/solr/documents
+
+# Ontologies are referenced by their resource name
+ontologies:
+  efo:
+    # Base access URI - where the ontology should load from
+    # accessURI: https://www.ebi.ac.uk/efo/efo.owl
+    # accessURI: https://raw.githubusercontent.com/EBISPOT/efo/v2019-03-18/efo.owl
+    accessURI: https://raw.githubusercontent.com/EBISPOT/scATLAS/master/scATLAS.owl
+
+    # Base URI(s)
+    baseURI: [ "https://www.ebi.ac.uk/efo/EFO_" ]
+    # URI for synonym annotations
+    synonymAnnotationURI: [ "https://www.ebi.ac.uk/efo/alternative_term" ]
+    # URI for definition annotations
+    definitionAnnotationURI: [ "https://www.ebi.ac.uk/efo/definition" ]
+    # URI for obsolete classes
+    obsoleteClassURI: "http://www.geneontology.org/formats/oboInOwl#ObsoleteClass"
+    # URI for labels
+    labelURI: "http://www.w3.org/2000/01/rdf-schema#label"
+
+    # URIs of parent classes whose children should be ignored (ie. obsolete classes)
+    ignoreURIs:
+      - "http://www.geneontology.org/formats/oboInOwl#ObsoleteClass"
+
+    # Which reasoner to user (hermit|elk)
+    reasoner: hermit
+
+    # Size of batch to index at once (default: 1000)
+    batchSize: 1000
+
+# Configuration for the storage engine
+storage:
+  # Storage engine type to use
+  engineTypes: [ solr ]
+
+  # Solr-specific configuration
+  solr:
+    # Base URL for the ontology index
+    baseUrl: http://localhost:8983/solr/efo-ontology
+
+    # Commit within time when storing items (in ms)
+    commitWithinMs: 60000
