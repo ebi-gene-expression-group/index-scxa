@@ -30,7 +30,7 @@ then
 fi
 
 printf "\n\nAdd runtime lib to collection classpath\n"
-HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/collections/$CORE/config" -H 'Content-type:application/json' -d '{"add-runtimelib": {"name":"biosolr","version":1}}')
+HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/solr/$CORE/config" -H 'Content-type:application/json' -d '{"add-runtimelib": {"name":"biosolr","version":1}}')
 
 if [[ ! $HTTP_STATUS == 2* ]];
 then

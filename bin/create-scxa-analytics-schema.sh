@@ -314,6 +314,10 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "enabled": "true",
     "annotationField": "ontology_annotation",
+    "synonymsField": "",
+    "definitionField": "",
+    "childField": "",
+    "descendantsField": "",
     "ontologyURI": "https://www.ebi.ac.uk/efo/efo.owl"
   }
 }' http://$HOST/solr/$CORE/config
