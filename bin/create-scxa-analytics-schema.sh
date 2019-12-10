@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=3
+SCHEMA_VERSION=4
 
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
@@ -318,6 +318,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "definitionField": "",
     "childField": "",
     "descendantsField": "",
-    "ontologyURI": "https://www.ebi.ac.uk/efo/efo.owl"
+    "ontologyURI": "https://github.com/EBISPOT/scATLAS/raw/master/scATLAS.owl"
   }
 }' http://$HOST/solr/$CORE/config
