@@ -142,15 +142,6 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Check schema is no longer there" {
-  if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping check of fields on schema"
-  fi
-  run analytics-check-created-fields.sh
-  echo "output = ${output}"
-  [ "$status" -ne 0 ]
-}
-
 @test "[analytics] Check that there is nothing loaded" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
