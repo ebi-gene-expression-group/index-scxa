@@ -109,7 +109,8 @@ delete-scxa-gene2experiment-exp-entries.sh
 
 
 ## Tests
-Tests are located in the `tests` directory and use bats. To run them, execute `bash tests/run-tests.sh`. The `tests` folder includes example data in matrix markt format.
+
+Tests are located in the `tests` directory and require docker to run. To run them, execute `bash run_tests_in_containers.sh`. The `tests` folder includes example data in matrix markt format.
 
 # Container
 

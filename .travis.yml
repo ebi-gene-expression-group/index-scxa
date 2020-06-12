@@ -6,15 +6,5 @@ services:
 env:
   - SOLR_HOST=my_solr:8983
 
-before_install:
-  - docker network create mynet
-  - docker run --net mynet --name my_solr -v $(pwd)/lib/solr-ontology-update-processor-1.1.jar:/opt/solr/server/solr/lib/solr-ontology-update-processor-1.1.jar -d -p 8983:8983 -t solr:7.1-alpine -DzkRun -Denable.runtime.lib=true -m 2g
-
-install:
-  - docker build -t test/index-scxa-module .
-
 script:
-  - sleep 20
-  - docker exec -it --user=solr my_solr bin/solr create_collection -c scxa-analytics-v3
-  - docker exec -it --user=solr my_solr bin/solr create_collection -c scxa-gene2experiment-v1
-  - docker run -i --net mynet -v $( pwd )/tests:/usr/local/tests -e SOLR_HOST=$SOLR_HOST --entrypoint=/usr/local/tests/run_tests_inside_container.sh test/index-scxa-module
+  - bash run_tests_in_containers.sh
