@@ -153,7 +153,7 @@ setup() {
 }
 
 @test '[analytics] Re-create collection' {
-  export NUMSHARDS=2
+  export SOLR_NUM_SHARD=1
   run create-scxa-analytics-collection.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
@@ -192,6 +192,28 @@ setup() {
   fi
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
   run load_scxa_analytics_index.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
+@test "[analytics] Load additional dataset for deletion testing" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to SOLR"
+  fi
+  export EXP_ID=E-GEOD-DELETE
+  export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf-delete.tsv
+  sed s/E-GEOD-106540/$EXP_ID/ $BATS_TEST_DIRNAME/example-conds-sdrf.tsv > $CONDENSED_SDRF_TSV
+  run load_scxa_analytics_index.sh && rm $CONDENSED_SDRF_TSV && analytics-check-experiment-available.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
+@test '[analytics] Delete additional dataset' {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to SOLR"
+  fi
+  export EXP_ID=E-GEOD-DELETE
+  run delete_scxa_analytics_index.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
