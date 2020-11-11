@@ -33,7 +33,7 @@ setup() {
   fi
   export SCHEMA_VERSION=1
   export SOLR_COLLECTION=scxa-gene2experiment-v$SCHEMA_VERSION
-  run scxa-index-set-no-autocreate.sh
+  run scxa-config-set-no-autocreate.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }

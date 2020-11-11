@@ -60,7 +60,7 @@ Solrsetup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
-  run scxa-index-set-no-autocreate.sh
+  run scxa-config-set-no-autocreate.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
@@ -163,7 +163,7 @@ Solrsetup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
-  run scxa-index-set-no-autocreate.sh
+  run scxa-config-set-no-autocreate.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
