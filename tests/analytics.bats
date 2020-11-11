@@ -1,5 +1,5 @@
 setup() {
-  export SOLR_COLLECTION=scxa-analytics-v3
+  export SOLR_COLLECTION=scxa-analytics-v4
 }
 
 @test "Check that curl is in the path" {
