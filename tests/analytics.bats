@@ -1,4 +1,4 @@
-Solrsetup() {
+setup() {
   export SOLR_COLLECTION=scxa-analytics-v4
 }
 
