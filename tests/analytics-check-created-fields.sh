@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=3
+SCHEMA_VERSION=4
 
 set -e
 
@@ -18,4 +18,4 @@ grep -A 2 '\("add-field"\|"add-dynamic-field"\)' "$(dirname "${BASH_SOURCE[0]}")
   | sort > expected_loaded_fields.txt
 
 echo "Running comm"
-comm -13 loaded_fields.txt expected_loaded_fields.txt 
+comm -13 loaded_fields.txt expected_loaded_fields.txt

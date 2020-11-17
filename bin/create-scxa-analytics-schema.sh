@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=3
+SCHEMA_VERSION=4
 
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
@@ -60,6 +60,48 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
     "name": "ontology_annotation",
+    "type": "string",
+    "multiValued": true,
+    "docValues": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+#############################################################################################
+
+printf "\n\nDelete field ontology_synonyms "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-field":
+  {
+    "name": "ontology_synonyms"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate ontology_synonyms (string, multiValued, docValues) "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":
+  {
+    "name": "ontology_synonyms",
+    "type": "string",
+    "multiValued": true,
+    "docValues": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+#############################################################################################
+
+printf "\n\nDelete field ontology_definition "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-field":
+  {
+    "name": "ontology_definition"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate ontology_synonyms (string, multiValued) "
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":
+  {
+    "name": "ontology_definition",
     "type": "string",
     "multiValued": true,
     "docValues": true
@@ -314,10 +356,10 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "enabled": "true",
     "annotationField": "ontology_annotation",
-    "synonymsField": "",
+    "synonymsField": "ontology_synonyms",
     "definitionField": "",
     "childField": "",
     "descendantsField": "",
-    "ontologyURI": "https://www.ebi.ac.uk/efo/efo.owl"
+    "ontologyURI": "https://github.com/EBISPOT/scatlas_ontology/raw/master/scatlas.owl"
   }
 }' http://$HOST/solr/$CORE/config

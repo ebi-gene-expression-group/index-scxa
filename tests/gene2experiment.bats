@@ -14,12 +14,12 @@ setup() {
     [  $? -eq 0 ]
 }
 
-@test "[gene2experiment] Create collection on solr" {
+@test "[gene2experiment] Create collection on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping loading of schema on solr"
+    skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
   if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
-    skip "solr collection has been predefined on the current setup"
+    skip "Solr collection has been predefined on the current setup"
   fi
   run create-scxa-gene2experiment-config-set.sh
   run create-scxa-gene2experiment-collection.sh
@@ -27,27 +27,27 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[gene2experiment] Set no auto-create on solr" {
+@test "[gene2experiment] Set no auto-create on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping loading of schema on solr"
+    skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
   export SCHEMA_VERSION=1
   export SOLR_COLLECTION=scxa-gene2experiment-v$SCHEMA_VERSION
-  run scxa-index-set-no-autocreate.sh
+  run scxa-config-set-no-autocreate.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
 
-@test "[gene2experiment] Load schema to collection on solr" {
+@test "[gene2experiment] Load schema to collection on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping loading of schema on solr"
+    skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
   run create-scxa-gene2experiment-schema.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
 
-@test "[gene2experiment] Load data to solr" {
+@test "[gene2experiment] Load data to Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi

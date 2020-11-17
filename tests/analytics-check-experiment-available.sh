@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=3
+SCHEMA_VERSION=4
 
 set -e
 
@@ -12,4 +12,4 @@ entries=$(curl "http://$HOST/solr/$CORE/select?fl=experiment_accession&q=experim
 if [ $entries -lt 1 ]; then
   echo "$EXP_ID not present in index $CORE at $HOST"
   exit 1
-fi  
+fi

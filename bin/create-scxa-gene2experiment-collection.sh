@@ -6,8 +6,9 @@ set -e
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
 CORE=${SOLR_COLLECTION:-"scxa-gene2experiment-v$SCHEMA_VERSION"}
-NUMSHARDS=${SOLR_NUM_SHARD:-1}
-REPLICATES=${SOLR_NUM_REPL:-1}
+NUM_SHARDS=${SOLR_NUM_SHARDS:-1}
+REPLICATES=${SOLR_REPLICATES:-1}
+MAX_SHARDS_PER_NODE=${SOLR_MAX_SHARDS_PER_NODE:-1}
 
 printf "\n\nCreating collection $CORE based on $HOST"
-curl "http://$HOST/solr/admin/collections?action=CREATE&name=$CORE&collection.configName=$CORE&numShards=$NUMSHARDS&replicationFactor=$REPLICATES"
+curl "http://$HOST/solr/admin/collections?action=CREATE&name=$CORE&collection.configName=$CORE&numShards=$NUM_SHARDS&replicationFactor=$REPLICATES&maxShardsPerNode=$MAX_SHARDS_PER_NODE"
