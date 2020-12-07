@@ -10,4 +10,22 @@ export ONTOLOGY_PROCESSOR=$SOLR_COLLECTION\_ontology_expansion
 
 echo "Loading cond. sdrf $CONDENSED_SDRF_TSV into host $SOLR_HOST collection $SOLR_COLLECTION..."
 
-condSdrf2tsvForSCXAJSONFactorsIndex.sh $CONDENSED_SDRF_TSV | jsonFilterEmptyFields.sh | loadJSONIndexToSolr.sh
+CHUNK_PREFIX=cond-sdrf-chunk-
+NUM_DOCS_PER_BATCH=100000
+
+split -d -a 3 -l $NUM_DOCS_PER_BATCH $CONDENSED_SDRF_TSV $CHUNK_PREFIX
+
+CHUNK_FILES=`ls $CHUNK_PREFIX*`
+
+for CHUNK_FILE in $CHUNK_FILES
+do
+  echo "$CHUNK_FILE / `wc -w <<< $CHUNK_FILES`"
+  condSdrf2tsvForSCXAJSONFactorsIndex.sh $CHUNK_FILE | jsonFilterEmptyFields.sh | loadJSONIndexToSolr.sh
+  STATUS=$?
+  
+  [ $STATUS -ne 0 ] && break
+done
+
+rm "$CHUNK_PREFIX*"
+exit $STATUS
+
