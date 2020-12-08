@@ -16,6 +16,7 @@ split -a 3 -l $NUM_DOCS_PER_BATCH $CONDENSED_SDRF_TSV $CHUNK_PREFIX
 CHUNK_FILES=$(ls $CHUNK_PREFIX*)
 
 I=O
+set +e
 for CHUNK_FILE in $CHUNK_FILES
 do
   I=$(($I + 1)) 
@@ -24,5 +25,6 @@ do
   STATUS=$?
   [ $STATUS -ne 0 ] && break
 done
+set -e
 rm $CHUNK_FILES
 exit $STATUS
