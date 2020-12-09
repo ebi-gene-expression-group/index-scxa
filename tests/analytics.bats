@@ -191,6 +191,7 @@ setup() {
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
+  export NUM_DOCS_PER_BATCH=20
   run load_scxa_analytics_index.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
