@@ -360,6 +360,8 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "definitionField": "",
     "childField": "",
     "descendantsField": "",
-    "ontologyURI": "https://raw.githubusercontent.com/EBISPOT/scatlas_ontology/zooma_file_proc_release/scatlas.owl"
+    "ontologyURI": "https://raw.githubusercontent.com/EBISPOT/scatlas_ontology/zooma_file_proc_release/scatlas.owl",
+    "includeChildren": false,
+    "includeDescendants": false
   }
 }' http://$HOST/solr/$CORE/config
