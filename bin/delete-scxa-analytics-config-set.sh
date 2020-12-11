@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export SCHEMA_VERSION=4
+export SCHEMA_VERSION=5
 export SOLR_COLLECTION=scxa-analytics-v$SCHEMA_VERSION
 HOST=${SOLR_HOST:-localhost:8983}
 CONFIG=$SOLR_COLLECTION
