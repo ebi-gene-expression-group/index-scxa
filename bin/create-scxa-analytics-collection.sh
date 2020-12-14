@@ -23,3 +23,27 @@ curl "http://$HOST/solr/$COLLECTION/config" -H 'Content-type:application/json' -
     "query.maxBooleanClauses" : ${MAX_BOOLEAN_CLAUSES}
   }
 }"
+
+# Disable hard and soft auto-commits, we’ll do that explicitly when convenient
+curl "http://$HOST/solr/$COLLECTION/config" -H 'Content-type:application/json' -d '{
+  "set-property": {
+    "updateHandler.autoCommit.maxTime":-1
+  }
+}'
+
+curl "http://$HOST/solr/$COLLECTION/config" -H 'Content-type:application/json' -d '{
+  "set-property": {
+    "updateHandler.autoCommit.maxDocs":-1
+  }
+}'
+
+curl "http://$HOST/solr/$COLLECTION/config" -H 'Content-type:application/json' -d '{
+  "set-property": {
+    "updateHandler.autoSoftCommit.maxTime":-1
+  }
+}'
+
+curl "http://$HOST/solr/$COLLECTION/config" -H 'Content-type:application/json' -d '{
+  "set-property": {
+    "updateHandler.autoSoftCommit.maxDocs":-1
+}'
