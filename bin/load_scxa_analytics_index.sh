@@ -27,4 +27,11 @@ do
 done
 set -e
 rm $CHUNK_FILES
+
+curl -X POST -H 'Content-Type: application/json' \
+"http://$SOLR_HOST/solr/$SOLR_COLLECTION/update" --data-binary \
+'{
+  "commit": {}
+}'
+
 exit $STATUS
