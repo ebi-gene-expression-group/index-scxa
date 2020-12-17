@@ -46,4 +46,5 @@ curl "http://$HOST/solr/$COLLECTION/config" -H 'Content-type:application/json' -
 curl "http://$HOST/solr/$COLLECTION/config" -H 'Content-type:application/json' -d '{
   "set-property": {
     "updateHandler.autoSoftCommit.maxDocs":-1
+  }
 }'
