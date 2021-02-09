@@ -13,3 +13,7 @@ export PROCESSOR=$SOLR_COLLECTION\_dedup
 echo "Loading genes from $MATRIX_MARKT_ROWS_GENES_FILE into host $SOLR_HOST collection $SOLR_COLLECTION..."
 
 matrixMarktGenes2json.sh | loadJSONIndexToSolr.sh
+
+curl -X POST -H 'Content-Type: application/json' \
+  "http://${SOLR_HOST}/solr/${SOLR_COLLECTION}/update" --data-binary '{ "commit": {} }'
+
