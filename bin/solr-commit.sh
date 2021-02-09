@@ -6,7 +6,7 @@ HTTP_STATUS=$(
 curl -X POST \
      -H 'Content-Type: application/json' \
      --data-binary '{ "commit": {} }' \
-     -s -o ${OUTPUT}  -w "%{http_code}" \
+     -s -o ${OUTPUT} -w "%{http_code}" \
      "http://${SOLR_HOST}/solr/${SOLR_COLLECTION}/update")
 
 if [[ ! $HTTP_STATUS == 2* ]];
