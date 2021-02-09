@@ -14,6 +14,11 @@ echo "Loading genes from $MATRIX_MARKT_ROWS_GENES_FILE into host $SOLR_HOST coll
 
 matrixMarktGenes2json.sh | loadJSONIndexToSolr.sh
 
-curl -X POST -H 'Content-Type: application/json' \
-  "http://${SOLR_HOST}/solr/${SOLR_COLLECTION}/update" --data-binary '{ "commit": {} }'
-
+HTTP_STATUS=$(curl -w "%{http_code}" -X POST -H 'Content-Type: application/json' \
+  "http://${SOLR_HOST}/solr/${SOLR_COLLECTION}/update" --data-binary '{ "commit": {} }')
+  
+if [[ ! $HTTP_STATUS == 2* ]];
+then
+   echo "Commit operation failed with HTTP status $HTTP_STATUS"
+   exit 1
+fi

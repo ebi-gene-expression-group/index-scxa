@@ -28,10 +28,14 @@ done
 set -e
 rm $CHUNK_FILES
 
-curl -X POST -H 'Content-Type: application/json' \
+HTTP_STATUS=$(curl -X POST -H 'Content-Type: application/json' \
 "http://$SOLR_HOST/solr/$SOLR_COLLECTION/update" --data-binary \
-'{
-  "commit": {}
-}'
+'{ "commit": {} }')
+
+if [[ ! $HTTP_STATUS == 2* ]];
+then
+   echo "Commit operation failed with HTTP status $HTTP_STATUS"
+   exit 1
+fi
 
 exit $STATUS
