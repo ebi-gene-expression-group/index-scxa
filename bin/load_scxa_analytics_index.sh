@@ -19,7 +19,7 @@ I=O
 set +e
 for CHUNK_FILE in $CHUNK_FILES
 do
-  I=$(($I + 1)) 
+  I=$(($I + 1))
   echo "$CHUNK_FILE ${I}/$(wc -w <<< $CHUNK_FILES)"
   condSdrf2tsvForSCXAJSONFactorsIndex.sh $CHUNK_FILE | jsonFilterEmptyFields.sh | loadJSONIndexToSolr.sh
   STATUS=$?
@@ -28,14 +28,6 @@ done
 set -e
 rm $CHUNK_FILES
 
-HTTP_STATUS=$(curl -X POST -H 'Content-Type: application/json' \
-"http://$SOLR_HOST/solr/$SOLR_COLLECTION/update" --data-binary \
-'{ "commit": {} }')
-
-if [[ ! $HTTP_STATUS == 2* ]];
-then
-   echo "Commit operation failed with HTTP status $HTTP_STATUS"
-   exit 1
-fi
+solr-commit.sh
 
 exit $STATUS
