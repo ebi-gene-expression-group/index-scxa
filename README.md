@@ -1,6 +1,6 @@
 [![Docker Repository on Quay](https://quay.io/repository/ebigxa/index-scxa-module/status "Docker Repository on Quay")](https://quay.io/repository/ebigxa/index-scxa-module)
 
-# Module for Single Cell Expression Atlas Solr index (v0.4.0)
+# Module for Single Cell Expression Atlas Solr index (v0.5.0)
 
 Scripts to create and load data into the `scxa-*` Solr indexes (for analytics and gene2experiment). Execution of tasks here require that `bin/` directory in the root of this repo is part of the path, and that the following executables are available:
 
@@ -10,7 +10,7 @@ Scripts to create and load data into the `scxa-*` Solr indexes (for analytics an
 
 Version 0.2.0 was used for loading the August/September 2018 Single Cell Expression Atlas release.
 
-# `scxa-analytics` index v4
+# `scxa-analytics` index v5
 
 ## Create collection
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
@@ -23,7 +23,7 @@ create-scxa-analytics-collection.sh
 ```
 
 ## Enable BioSolr
-`scxa-analytics-v4` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 2 options:
+`scxa-analytics-v5` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 2 options:
 
 ### Option 1: Local `.jar` file
 Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory.

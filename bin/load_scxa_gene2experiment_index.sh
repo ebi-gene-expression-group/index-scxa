@@ -13,3 +13,5 @@ export PROCESSOR=$SOLR_COLLECTION\_dedup
 echo "Loading genes from $MATRIX_MARKT_ROWS_GENES_FILE into host $SOLR_HOST collection $SOLR_COLLECTION..."
 
 matrixMarktGenes2json.sh | loadJSONIndexToSolr.sh
+
+solr-commit.sh

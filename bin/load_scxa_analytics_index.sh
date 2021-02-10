@@ -3,7 +3,7 @@ set -e
 
 [ -z ${CONDENSED_SDRF_TSV+x} ] && echo "CONDENSED_SDRF_TSV env var is needed." && exit 1
 
-export SCHEMA_VERSION=4
+export SCHEMA_VERSION=5
 export SOLR_COLLECTION=scxa-analytics-v$SCHEMA_VERSION
 export PROCESSOR=$SOLR_COLLECTION\_dedup
 export ONTOLOGY_PROCESSOR=$SOLR_COLLECTION\_ontology_expansion
@@ -19,7 +19,7 @@ I=O
 set +e
 for CHUNK_FILE in $CHUNK_FILES
 do
-  I=$(($I + 1)) 
+  I=$(($I + 1))
   echo "$CHUNK_FILE ${I}/$(wc -w <<< $CHUNK_FILES)"
   condSdrf2tsvForSCXAJSONFactorsIndex.sh $CHUNK_FILE | jsonFilterEmptyFields.sh | loadJSONIndexToSolr.sh
   STATUS=$?
@@ -27,4 +27,7 @@ do
 done
 set -e
 rm $CHUNK_FILES
+
+solr-commit.sh
+
 exit $STATUS
