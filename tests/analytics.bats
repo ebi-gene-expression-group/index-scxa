@@ -74,7 +74,7 @@ setup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
-  export SCXA_ONTOLOGY="${BATS_TEST_DIRNAME}/scatlas.owl"
+  export SCXA_ONTOLOGY="file://${BATS_TEST_DIRNAME}/scatlas.owl"
   run create-scxa-analytics-schema.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
@@ -178,7 +178,7 @@ setup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
-  export SCXA_ONTOLOGY="${BATS_TEST_DIRNAME}/scatlas.owl"
+  export SCXA_ONTOLOGY="file://${BATS_TEST_DIRNAME}/scatlas.owl"
   run create-scxa-analytics-schema.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
