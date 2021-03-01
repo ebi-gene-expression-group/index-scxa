@@ -4,6 +4,7 @@ SCHEMA_VERSION=5
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
 CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
+SCXA_ONTOLOGY=${SCXA_ONTOLOGY:-"file:///srv/gxa/scatlas.owl"}
 
 #############################################################################################
 
@@ -313,7 +314,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "runtimeLib": true,
     "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "annotationField": "ontology_annotation",
-    "ontologyURI": "https://raw.githubusercontent.com/EBISPOT/scatlas_ontology/zooma_file_proc_release/scatlas.owl",
+    "ontologyURI": "'$SCXA_ONTOLOGY'",
     "includeChildren": false,
     "includeDescendants": false
   }

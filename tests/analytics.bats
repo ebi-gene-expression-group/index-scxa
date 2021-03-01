@@ -65,10 +65,16 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
+@test "Fetch SCXA OWL file" {
+    run wget -O ${BATS_TEST_DIRNAME}/scatlas.owl https://raw.githubusercontent.com/EBISPOT/scatlas_ontology/zooma_file_proc_release/scatlas.owl
+    [ -s "${BATS_TEST_DIRNAME}/scatlas.owl" ]
+}
+
 @test "[analytics] Load schema to collection on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
+  export SCXA_ONTOLOGY="file://${BATS_TEST_DIRNAME}/scatlas.owl"
   run create-scxa-analytics-schema.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
@@ -172,6 +178,7 @@ setup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on Solr"
   fi
+  export SCXA_ONTOLOGY="file://${BATS_TEST_DIRNAME}/scatlas.owl"
   run create-scxa-analytics-schema.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
