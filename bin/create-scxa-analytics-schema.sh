@@ -313,7 +313,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "runtimeLib": true,
     "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "annotationField": "ontology_annotation",
-    "ontologyURI": "https://raw.githubusercontent.com/EBISPOT/scatlas_ontology/zooma_file_proc_release/scatlas.owl",
+    "ontologyURI": "file:///srv/gxa/scatlas.owl",
     "includeChildren": false,
     "includeDescendants": false
   }
