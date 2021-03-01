@@ -66,7 +66,7 @@ setup() {
 }
 
 @test "Fetch SCXA OWL file" {
-    run curl https://raw.githubusercontent.com/EBISPOT/scatlas_ontology/zooma_file_proc_release/scatlas.owl > ${BATS_TEST_DIRNAME}/scatlas.owl 
+    run wget -O ${BATS_TEST_DIRNAME}/scatlas.owl https://raw.githubusercontent.com/EBISPOT/scatlas_ontology/zooma_file_proc_release/scatlas.owl
     [ -s "${BATS_TEST_DIRNAME}/scatlas.owl" ]
 }
 

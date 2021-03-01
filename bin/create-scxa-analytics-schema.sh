@@ -4,7 +4,7 @@ SCHEMA_VERSION=5
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
 CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
-SCXA_ONTOLOGY=${SOLR_ONTOLOGY:-"file:///srv/gxa/scatlas.owl"}
+SCXA_ONTOLOGY=${SCXA_ONTOLOGY:-"file:///srv/gxa/scatlas.owl"}
 
 #############################################################################################
 
