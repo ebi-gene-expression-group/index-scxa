@@ -54,6 +54,14 @@ For Single Cell Expression Atlas run:
 ```bash
 create-scxa-analytics-suggesters.sh
 ```
+## Suggesters Dictionary Implementation
+ We are using multiple dictionaries(dictionaryImpl) for a single SuggestComponent to fetch good number of suggestions.
+ ####Here is the Dictionary Implementations: 
+   - ontologyAnnotationSuggester
+   - ontologyAnnotationAncestorSuggester
+   - ontologyAnnotationParentSuggester
+   - ontologyAnnotationSynonymSuggester
+   - ontologyAnnotationChildSuggester
 
 ## Load data
 This module loads data from a condensed SDRF in an SCXA experiment to the scxa-analytics-v? collection in Solr. These routines expect the collection to be created already, and work as an update to the content of the collection.
