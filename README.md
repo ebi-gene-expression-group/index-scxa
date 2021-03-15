@@ -48,6 +48,13 @@ create-scxa-analytics-schema.sh
 
 You can override the default target Solr collection name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
 
+## Add suggesters
+
+For Single Cell Expression Atlas run:
+```bash
+create-scxa-analytics-suggesters.sh
+```
+
 ## Load data
 This module loads data from a condensed SDRF in an SCXA experiment to the scxa-analytics-v? collection in Solr. These routines expect the collection to be created already, and work as an update to the content of the collection.
 
