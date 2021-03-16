@@ -56,7 +56,7 @@ create-scxa-analytics-suggesters.sh
 ```
 ## Suggesters Dictionary Implementation
  We are using multiple dictionaries(dictionaryImpl) for a single SuggestComponent to fetch good number of suggestions.
- ####Here is the Dictionary Implementations: 
+ #### Here is the Dictionary Implementations: 
    - ontologyAnnotationSuggester
    - ontologyAnnotationAncestorSuggester
    - ontologyAnnotationParentSuggester
