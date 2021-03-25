@@ -54,9 +54,13 @@ For Single Cell Expression Atlas run:
 ```bash
 create-scxa-analytics-suggesters.sh
 ```
+
 ## Suggesters Dictionary Implementation
- We are using multiple dictionaries(dictionaryImpl) for a single SuggestComponent to fetch good number of suggestions.
- #### Here is the Dictionary Implementations: 
+
+We are using multiple dictionaries (dictionaryImpl) for a single `SuggestComponent` to fetch various suggestions.
+
+#### Dictionary Implementations: 
+
    - ontologyAnnotationSuggester
    - ontologyAnnotationAncestorSuggester
    - ontologyAnnotationParentSuggester
