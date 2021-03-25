@@ -235,3 +235,13 @@ setup() {
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
+
+@test "[analytics] Re-Load suggesters to collection on Solr" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping loading of suggesters on Solr"
+  fi
+  export SCHEMA_VERSION=5
+  run create-scxa-analytics-suggesters.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
