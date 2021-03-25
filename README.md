@@ -51,6 +51,7 @@ You can override the default target Solr collection name by setting `SOLR_COLLEC
 ## Add suggesters
 
 For Single Cell Expression Atlas run:
+
 ```bash
 create-scxa-analytics-suggesters.sh
 ```
