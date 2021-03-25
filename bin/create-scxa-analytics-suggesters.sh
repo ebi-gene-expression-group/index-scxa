@@ -10,13 +10,13 @@ COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v${SCHEMA_VERSION}"}
 #############################################################################################
 
 printf "\n\nDelete search component for suggesters"
-CURL -X POST -H 'Content-Type: application/json' -d '{
+curl -X POST -H 'Content-Type: application/json' -d '{
   "delete-searchcomponent" : "suggest"
 }' http://${HOST}/solr/${COLLECTION}/config
 
 
 printf "\n\nCreate search component for suggesters"
-CURL -X POST -H 'Content-Type: application/json' -d '{
+curl -X POST -H 'Content-Type: application/json' -d '{
   "add-searchcomponent": {
        "name": "suggest",
        "class": "solr.SuggestComponent",
@@ -84,13 +84,13 @@ CURL -X POST -H 'Content-Type: application/json' -d '{
 #############################################################################################
 
 printf "\n\nDelete request handler /suggest"
-CURL -X POST -H 'Content-Type: application/json' -d '{
+curl -X POST -H 'Content-Type: application/json' -d '{
     "delete-requesthandler" :  "/suggest"
 }' http://${HOST}/solr/${COLLECTION}/config
 
 
 printf "\n\nCreate request handler /suggest"
-CURL -X POST -H 'Content-Type: application/json' -d '{
+curl -X POST -H 'Content-Type: application/json' -d '{
     "add-requesthandler" : {
         "name":"/suggest",
         "class":"solr.SearchHandler",
