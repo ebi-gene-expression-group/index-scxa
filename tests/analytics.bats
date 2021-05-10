@@ -245,3 +245,13 @@ setup() {
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
+
+@test "[analytics] build suggesters on Solr" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skip building of suggesters on Solr"
+  fi
+  export SCHEMA_VERSION=5
+  run build-scxa-analytics-suggestions.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
