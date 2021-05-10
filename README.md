@@ -50,7 +50,7 @@ You can override the default target Solr collection name by setting `SOLR_COLLEC
 
 ## Add suggesters
 
-For Single Cell Expression Atlas run:
+For the Single Cell Expression Atlas, run the script:
 
 ```bash
 create-scxa-analytics-suggesters.sh
@@ -67,6 +67,13 @@ We are using multiple dictionaries (dictionaryImpl) for a single `SuggestCompone
    - ontologyAnnotationParentSuggester
    - ontologyAnnotationSynonymSuggester
    - ontologyAnnotationChildSuggester
+
+## Build suggesters
+For the SCXA, to build suggesters with multiple dictionaries on the Solr, run this script:
+
+```bash
+build-scxa-analytics-suggestions.sh
+```
 
 ## Load data
 This module loads data from a condensed SDRF in an SCXA experiment to the scxa-analytics-v? collection in Solr. These routines expect the collection to be created already, and work as an update to the content of the collection.
