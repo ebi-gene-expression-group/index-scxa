@@ -44,7 +44,7 @@ testQuery=skin
 maxTries=5
 counter=0
 
-while [ -n "$fails" ]; do
+while [ -n "$fails" ] && [ "$counter" -lt "$maxTries" ]; do
 
     newFails=''
 
@@ -69,8 +69,9 @@ while [ -n "$fails" ]; do
 
     # If we have fails, give it 5 mins and try again (up to $maxTries tries) 
 
+    counter=$((counter+1))
     if [ -n "$newFails" ]; then
-        if [ "$counter" -lt "$maxTries"  ]; then
+        if [ "$counter" -lt "$maxTries" ]; then
             echo "Still have failing suggesters, sleeping for 5 mins before a retry" 1>&2
             sleep 5m
         else
@@ -80,7 +81,6 @@ while [ -n "$fails" ]; do
 
     # Just remove any leading spaces from fails
     fails=$(echo -e "$newFails" | sed 's/^ //')
-    counter=$((counter+1))
 
 done
 
