@@ -10,5 +10,83 @@ SCHEMA_VERSION=5
 HOST=${SOLR_HOST:-"localhost:8983"}
 COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v${SCHEMA_VERSION}"}
 
-curl "http://$HOST/solr/$COLLECTION/suggest?suggest=true&suggest.build=true&suggest.dictionary=ontologyAnnotationSuggester&suggest.dictionary=ontologyAnnotationAncestorSuggester&suggest.dictionary=ontologyAnnotationParentSuggester&suggest.dictionary=ontologyAnnotationSynonymSuggester&suggest.dictionary=ontologyAnnotationChildSuggester"
+REQUEST_URI="http://$HOST/solr/$COLLECTION/suggest?suggest=true"
+BUILD=${BUILD_SUGGESTERS:-true}
 
+# Build suggesters one by one
+
+suggesters="ontologyAnnotationSuggester ontologyAnnotationAncestorSuggester ontologyAnnotationParentSuggester ontologyAnnotationSynonymSuggester ontologyAnnotationChildSuggester"
+
+if [ "$BUILD" = true ] ; then
+    for suggester in $suggesters; do 
+
+        echo "Building $suggester"    
+        
+        # For some reason the error trace that can come back invalidates the
+        # json so we need some 'tr' and 'sed' magic
+        
+        response=$(curl "$REQUEST_URI&suggest.build=true&suggest.dictionary=$suggester" | tr -d '\n' | sed 's/\t/ /g' 2> /dev/null)
+        statusCode=$(echo -e "$response" | jq '.responseHeader.status')
+        
+        if [ "$statusCode" -eq '0' ]; then
+            echo "Successfully built suggester: $suggester"
+        else
+            echo -e "Failed to build suggester $suggester, resoponse was: \n\n$response\n" 1>&2
+        fi
+    done
+fi
+
+# Verify zero status and valid response in all suggesters
+
+success=''
+fails=$suggesters
+testQuery=skin
+maxTries=5
+counter=0
+
+while [ -n "$fails" ]; do
+
+    newFails=''
+
+    # A successful suggester is one that returns a status code of 0, and a
+    # number of results greater than 0 for the test query. Testing indicates
+    # that still-building suggesters provide a return code of 500.
+
+    for suggester in $suggesters; do
+        response=$(curl -X GET "$REQUEST_URI&suggest.dictionary=$suggester&suggest.q=$testQuery" | tr -d '\n' | sed 's/\t/ /g' 2> /dev/null)
+        statusCode=$(echo -e "$response" | jq '.responseHeader.status')
+        numFound=$(echo -e "$response" | jq ".suggest.${suggester}.${testQuery}.numFound")
+       
+
+        if [ "$statusCode" -eq '0' ] && [ -n "$numFound" ] && [ "$numFound" -gt '0' ]; then
+            echo "$suggester built and producing valid response"
+            success="$success $suggester"
+        else
+            echo "$suggester produced either invalid status code ($statusCode) or number of results ($numFound)" 1>&2
+            newFails="$newFails $suggester"  
+        fi
+    done
+
+    # If we have fails, give it 5 mins and try again (up to $maxTries tries) 
+
+    if [ -n "$newFails" ]; then
+        if [ "$counter" -lt "$maxTries"  ]; then
+            echo "Still have failing suggesters, sleeping for 5 mins before a retry" 1>&2
+            sleep 5m
+        else
+            echo "Still failing but retries exceeded, no more retries" 1>&2
+        fi
+    fi
+
+    # Just remove any leading spaces from fails
+    fails=$(echo -e "$newFails" | sed 's/^ //')
+    counter=$((counter+1))
+
+done
+
+if [ -n "$fails" ]; then
+    echo "Some suggesters never succeeded: $fails" 1>&2
+    exit 1
+else
+    echo "All suggesters succeeded in the end"
+fi
