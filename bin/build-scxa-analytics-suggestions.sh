@@ -75,7 +75,7 @@ while [ -n "$fails" ] && [ "$counter" -lt "$maxTries" ]; do
     counter=$((counter+1))
     if [ -n "$newFails" ]; then
         if [ "$counter" -lt "$maxTries" ]; then
-            echo "Still have failing suggesters, sleeping for 5 mins before a retry" 1>&2
+            echo "This was try $counter. Still have failing suggesters, sleeping for 5 mins before a retry (max tries $maxTries)" 1>&2
             sleep 5m
         else
             echo "Still failing but retries exceeded, no more retries" 1>&2
