@@ -25,7 +25,7 @@ if [ "$BUILD" = true ] ; then
         # For some reason the error trace that can come back invalidates the
         # json so we need some 'tr' and 'sed' magic
         
-        response=$(curl "$REQUEST_URI&suggest.build=true&suggest.dictionary=$suggester" 2> /dev/null)
+        response=$(curl "$REQUEST_URI&suggest.build=true&suggest.dictionary=$suggester")
         response=$(echo -e "$response" | tr -d '\n' | sed 's/\t/ /g')
         statusCode=$(echo -e "$response" | jq '.responseHeader.status')
         
