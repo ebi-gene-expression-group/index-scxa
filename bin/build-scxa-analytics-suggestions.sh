@@ -62,7 +62,7 @@ while [ -n "$fails" ] && [ "$counter" -lt "$maxTries" ]; do
         if [ "$statusCode" -eq '0' ] && [ -n "$numFound" ] && [ "$numFound" -gt '0' ]; then
             echo "$suggester built and producing valid response"
 
-        elif [ "$statusCode" -eq '0' && "$suggester" == 'ontologyAnnotationChildSuggester' ]; then
+        elif [ "$statusCode" -eq '0' ] && [ "$suggester" == 'ontologyAnnotationChildSuggester' ]; then
             echo "(no test string currently set that works with $suggester)"
         else
             echo "$suggester produced either invalid status code ($statusCode) or number of results ($numFound)" 1>&2
