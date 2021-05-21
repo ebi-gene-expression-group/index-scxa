@@ -12,6 +12,7 @@ COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v${SCHEMA_VERSION}"}
 
 REQUEST_URI="http://$HOST/solr/$COLLECTION/suggest?suggest=true"
 BUILD=${BUILD_SUGGESTERS:-true}
+REQUIRE_TEST_RESULTS=${REQUIRE_TEST_RESULTS:-false}
 
 # Build suggesters one by one
 
@@ -40,7 +41,7 @@ fi
 # Verify zero status and valid response in all suggesters
 
 fails=$suggesters
-testQuery=skin
+testQuery=blood
 maxTries=5
 counter=0
 
@@ -58,15 +59,18 @@ while [ -n "$fails" ] && [ "$counter" -lt "$maxTries" ]; do
 
         statusCode=$(echo -e "$response" | jq '.responseHeader.status')
         numFound=$(echo -e "$response" | jq ".suggest.${suggester}.${testQuery}.numFound")
-       
-        if [ "$statusCode" -eq '0' ] && [ -n "$numFound" ] && [ "$numFound" -gt '0' ]; then
-            echo "$suggester built and producing valid response"
 
-        elif [ "$statusCode" -eq '0' ] && [ "$suggester" == 'ontologyAnnotationChildSuggester' ]; then
-            echo "(no test string currently set that works with $suggester)"
+        if [ "$statusCode" -eq '0' ]; then
+            echo "$suggester built and producing status 0"
+            if [ "$numFound" -eq '0' ]; then
+                echo "Warning: $suggester produced no results for $testQuery" 1>&2
+                if [ "$REQUIRE_TEST_RESULTS" = true ] ; then
+                    newFails="$newFails $suggester"    
+                fi
+            fi
         else
-            echo "$suggester produced either invalid status code ($statusCode) or number of results ($numFound)" 1>&2
-            newFails="$newFails $suggester"  
+            echo "$suggester build failed, status code $statusCode"
+            newFails="$newFails $suggester"
         fi
     done
 
