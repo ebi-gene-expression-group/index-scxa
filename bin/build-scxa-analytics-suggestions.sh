@@ -69,7 +69,7 @@ while [ -n "$fails" ] && [ "$counter" -lt "$maxTries" ]; do
                 fi
             fi
         else
-            echo "$suggester build failed, status code $statusCode"
+            echo "Error: $suggester build failed, status code $statusCode" 1>&2
             newFails="$newFails $suggester"
         fi
     done
