@@ -7,4 +7,4 @@ env:
   - SOLR_HOST=my_solr:8983
 
 script:
-  - bash run_tests_in_containers.sh
+  - travis_wait 60 bash run_tests_in_containers.sh
