@@ -60,7 +60,7 @@ create-scxa-analytics-suggesters.sh
 
 We are using multiple dictionaries (dictionaryImpl) for a single `SuggestComponent` to fetch various suggestions.
 
-#### Dictionary Implementations: 
+#### Dictionary Implementations:
 
    - ontologyAnnotationSuggester
    - ontologyAnnotationAncestorSuggester
@@ -76,13 +76,16 @@ build-scxa-analytics-suggestions.sh
 ```
 
 ## Load data
-This module loads data from a condensed SDRF in an SCXA experiment to the scxa-analytics-v? collection in Solr. These routines expect the collection to be created already, and work as an update to the content of the collection.
+This module loads data from a condensed SDRF in an SCXA experiment to the
+`scxa-analytics-v?` collection in Solr. These routines expect the collection to
+be created. You will need write permissions in the scripts directory since
+temporary files are created as part of this process.
 
 ```bash
 export SOLR_HOST=192.168.99.100:32080
 export CONDENSED_SDRF_TSV=../scxa-test-experiments/magetab/E-GEOD-106540/E-GEOD-106540.condensed-sdrf.tsv
 
-load_scxa_analytics_index.sh
+load-scxa-analytics.sh
 ```
 
 ## Delete an experiment
