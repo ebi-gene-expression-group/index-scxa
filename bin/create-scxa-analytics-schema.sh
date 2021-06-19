@@ -67,9 +67,69 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
+
+printf "\n\nDelete field ctw_organism"
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-field":
+  {
+    "name": "ctw_organism"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate field ctw_organism (string, docValues)"
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":
+  {
+    "name": "ctw_organism",
+    "type": "string",
+    "docValues": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+#############################################################################################
+
+printf "\n\nDelete field ctw_organism_part"
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-field":
+  {
+    "name": "ctw_organism_part"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate field ctw_organism_part (string, docValues)"
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":
+  {
+    "name": "ctw_organism_part",
+    "type": "string",
+    "docValues": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+#############################################################################################
+
+printf "\n\nDelete field ctw_inferred_cell_type"
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "delete-field":
+  {
+    "name": "ctw_inferred_cell_type"
+  }
+}' http://$HOST/solr/$CORE/schema
+
+printf "\n\nCreate field inferred_cell_type (string, docValues)"
+curl -X POST -H 'Content-type:application/json' --data-binary '{
+  "add-field":
+  {
+    "name": "ctw_inferred_cell_type",
+    "type": "string",
+    "docValues": true
+  }
+}' http://$HOST/solr/$CORE/schema
+
+#############################################################################################
 # Deletion of copy field needs to come before the deletion of the actual fields.
 # 1.1
-printf "\n\nDelete copy field rule for facet_factor_* "
+printf "\n\nDelete copy field rule for facet_factor_*"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-copy-field":{
      "source": "factor_*",
