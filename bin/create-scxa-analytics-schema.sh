@@ -62,7 +62,6 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   {
     "name": "ontology_annotation",
     "type": "string",
-    "multiValued": true,
     "docValues": true
   }
 }' http://$HOST/solr/$CORE/schema
@@ -87,13 +86,12 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 # 1.3
-printf "\n\nCreate dynamic field rule factor_* (lowercase, multiValued) "
+printf "\n\nCreate dynamic field rule factor_* (lowercase)"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
     "name": "factor_*",
-    "type": "lowercase",
-    "multiValued": true
+    "type": "lowercase"
   }
 }' http://$HOST/solr/$CORE/schema
 
@@ -107,13 +105,12 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   }
 }' http://$HOST/solr/$CORE/schema
 # 1.5
-printf "\n\nCreate dynamic field rule facet_factor_* (lowercase, multiValued) "
+printf "\n\nCreate dynamic field rule facet_factor_* (string, docValues)"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
     "name": "facet_factor_*",
     "type": "string",
-    "multiValued": true,
     "docValues": true
   }
 }' http://$HOST/solr/$CORE/schema
@@ -151,19 +148,18 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 # 2.3
-printf "\n\nCreate dynamic field rule characteristic_* (lowercase, multiValued) "
+printf "\n\nCreate dynamic field rule characteristic_* (lowercase)"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
     "name": "characteristic_*",
-    "type": "lowercase",
-    "multiValued": true
+    "type": "lowercase"
   }
 }' http://$HOST/solr/$CORE/schema
 
 # #############################################################################################
 # 2.4
-printf "\n\nDelete dynamic field rule facet_characteristic_* "
+printf "\n\nDelete dynamic field rule facet_characteristic_*"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-dynamic-field":
   {
@@ -173,20 +169,19 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 # 2.5
-printf "\n\nCreate dynamic field rule facet_characteristic_* (lowercase, multiValued) "
+printf "\n\nCreate dynamic field rule facet_characteristic_* (string, docValues)"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-dynamic-field":
   {
     "name": "facet_characteristic_*",
     "type": "string",
-    "multiValued": true,
     "docValues": true
   }
 }' http://$HOST/solr/$CORE/schema
 
 #############################################################################################
 # 2.6
-printf "\n\nCreate copy field rule characteristic_* -> facet_characteristic_* "
+printf "\n\nCreate copy field rule characteristic_* -> facet_characteristic_*"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-copy-field":{
      "source": "characteristic_*",
@@ -196,7 +191,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 #############################################################################################
 # Fields required for BioSolr
 
-printf "\n\nDelete dynamic field rule *_rel_iris "
+printf "\n\nDelete dynamic field rule *_rel_iris"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-dynamic-field":
   {
