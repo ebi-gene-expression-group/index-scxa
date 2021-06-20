@@ -62,7 +62,7 @@ add |
   experiment_accession,
   ctw_organism: .organism,
   ctw_organism_part: .organism_part,
-  ctw_inferred_cell_type: (.["inferred_cell_type_-_ontology_labels"] // .["inferred_cell_type_-_authors_labels"])
+  ctw_cell_type: (.["inferred_cell_type_-_ontology_labels"] // .["inferred_cell_type_-_authors_labels"] // .["cell_type"] // .["progenitor_cell_type"])
 } |
 # Remove null-valued entries
 with_entries( select( .value != null ) )

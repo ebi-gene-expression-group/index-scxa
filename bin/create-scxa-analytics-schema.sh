@@ -108,19 +108,19 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 
 #############################################################################################
 
-printf "\n\nDelete field ctw_inferred_cell_type"
+printf "\n\nDelete field ctw_cell_type"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "delete-field":
   {
-    "name": "ctw_inferred_cell_type"
+    "name": "ctw_cell_type"
   }
 }' http://$HOST/solr/$CORE/schema
 
-printf "\n\nCreate field inferred_cell_type (string, docValues)"
+printf "\n\nCreate field ctw_cell_type (string, docValues)"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-field":
   {
-    "name": "ctw_inferred_cell_type",
+    "name": "ctw_cell_type",
     "type": "string",
     "docValues": true
   }
