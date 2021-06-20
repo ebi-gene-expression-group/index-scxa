@@ -29,7 +29,7 @@ commit() {
 
   if [[ ! ${HTTP_STATUS} == 2* ]]
   then
-    echo "Error during commit!" && exit 1
+    echo "Error during commit! > ${HTTP_STATUS}" && exit 1
   fi
 }
 
