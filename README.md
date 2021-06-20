@@ -1,7 +1,6 @@
 [![Docker Repository on Quay](https://quay.io/repository/ebigxa/index-scxa-module/status "Docker Repository on Quay")](https://quay.io/repository/ebigxa/index-scxa-module)
 
 # Module for Single Cell Expression Atlas Solr index (v0.5.0)
-
 Scripts to create and load data into the `scxa-*` Solr indexes (for analytics and gene2experiment). Execution of tasks here require that `bin/` directory in the root of this repo is part of the path, and that the following executables are available:
 
 - awk
@@ -10,8 +9,7 @@ Scripts to create and load data into the `scxa-*` Solr indexes (for analytics an
 
 Version 0.2.0 was used for loading the August/September 2018 Single Cell Expression Atlas release.
 
-# `scxa-analytics` index v5
-
+# `scxa-analytics` index v6
 ## Create collection
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 
@@ -49,7 +47,6 @@ create-scxa-analytics-schema.sh
 You can override the default target Solr collection name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
 
 ## Add suggesters
-
 For the Single Cell Expression Atlas, run the script:
 
 ```bash
@@ -57,11 +54,9 @@ create-scxa-analytics-suggesters.sh
 ```
 
 ## Suggesters Dictionary Implementation
-
 We are using multiple dictionaries (dictionaryImpl) for a single `SuggestComponent` to fetch various suggestions.
 
 #### Dictionary Implementations:
-
    - ontologyAnnotationSuggester
    - ontologyAnnotationAncestorSuggester
    - ontologyAnnotationParentSuggester
@@ -77,7 +72,7 @@ build-scxa-analytics-suggestions.sh
 
 ## Load data
 This module loads data from a condensed SDRF in an SCXA experiment to the
-`scxa-analytics-v?` collection in Solr. These routines expect the collection to
+`scxa-analytics-v6` collection in Solr. These routines expect the collection to
 be created. You will need write permissions in the scripts directory since
 temporary files are created as part of this process.
 
@@ -102,7 +97,6 @@ delete_scxa_analytics_index.sh
 Tests are located in the `tests` directory and require Docker to run. To run them, execute `run_tests_in_containers.sh`. The `tests` folder includes example data in TSV (a condensed SDRF) and in JSON (as it should be produced by the first step that translates the cond. SDRF to JSON).
 
 # `scxa-gene2experiment` index v1
-
 ## Create schema
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 
@@ -117,14 +111,22 @@ create-scxa-gene2experiment-schema.sh
 You can override the default target Solr collection name by setting `SOLR_COLLECTION`, but remember to include the additional `v<schema-version-number>` at the end, or the loader might refuse to load this.
 
 ## Load data
-This module loads data from a [Matrix Market](https://math.nist.gov/MatrixMarket/formats.html) rows file (set in env var `MATRIX_MARKT_ROWS_GENES_FILE`) containing gene identifiers in the rows for a SCXA experiment to the scxa-gene2experiment-v1 collection in Solr. The experiment accession needs to be set in the environment variable `EXP_ID`. These routines expect the collection to be created already, and work as an update to the content of the collection (deduplicating experiment_accession,gene_id tuples).
+This module loads data from a
+[Matrix Market](https://math.nist.gov/MatrixMarket/formats.html) rows file (set
+in env var `MATRIX_MARKT_ROWS_GENES_FILE`) containing gene identifiers in the
+rows for a SCXA experiment to the `scxa-gene2experiment-v1` collection in Solr.
+The experiment accession needs to be set in the environment variable `EXP_ID`.
+These routines expect the collection to be created already, and work as an
+update to the content of the collection (deduplicating
+`experiment_accession,gene_id` tuples). You will need write permissions in the
+scripts directory since temporary files are created as part of this process.
 
 ```bash
 export SOLR_HOST=192.168.99.100:32080
 export EXP_ID=E-GEOD-106540
 export MATRIX_MARKT_ROWS_GENES_FILE=../path/to/E-GEOD-106540.aggregated_counts.mtx_rows
 
-load_scxa_gene2experiment_index.sh
+load-scxa-gene2experiment.sh
 ```
 
 ## Delete an experiment
@@ -137,12 +139,10 @@ export SOLR_HOST=192.168.99.100:32080
 delete-scxa-gene2experiment-exp-entries.sh
 ```
 
-
 ## Tests
 Tests are located in the `tests` directory and require Docker to run. To run them, execute `run_tests_in_containers.sh`. The `tests` folder includes example data in Matrix Market format.
 
 # Container
-
 The container is available for use at quay.io/ebigxa/index-scxa-module at latest or any of the tags after 0.2.0, so it could be used like this:
 
 ```bash
