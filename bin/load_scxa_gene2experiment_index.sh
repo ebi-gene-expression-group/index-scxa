@@ -7,11 +7,15 @@ set -e
 
 
 export SCHEMA_VERSION=1
-export SOLR_COLLECTION=scxa-gene2experiment-v$SCHEMA_VERSION
-export PROCESSOR=$SOLR_COLLECTION\_dedup
+export SOLR_COLLECTION=scxa-gene2experiment
+export SOLR_PROCESSORS=${SOLR_COLLECTION}-v${SCHEMA_VERSION}_dedup
 
-echo "Loading genes from $MATRIX_MARKT_ROWS_GENES_FILE into host $SOLR_HOST collection $SOLR_COLLECTION..."
+MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME=`basename $MATRIX_MARKT_ROWS_GENES_FILE`.jsonl
+echo "Transform $MATRIX_MARKT_ROWS_GENES_FILE to JSONL -> $MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME"
+matrixMarktGenes2json.sh > $MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME
 
-matrixMarktGenes2json.sh | loadJSONIndexToSolr.sh
+export INPUT_JSONL=$MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME
+solr-jsonl-chunk-loader.sh
 
-solr-commit.sh
+echo "Cleaning up JSONL file"
+rm $MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME
