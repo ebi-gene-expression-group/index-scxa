@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-SCHEMA_VERSION=5
+SCHEMA_VERSION=6
 
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
@@ -39,7 +39,7 @@ if [ "$numberOfDocuments" -ne 1 ]; then
 fi
 
 # Check if the organism part returned has the right value
-echo ${response} | jq -e --arg org_part "$org_part" '.docs[0].characteristic_value | contains([$org_part])'
+echo ${response} | jq -e --arg org_part "$org_part" '.docs[0].characteristic_value | contains($org_part)'
 
 # Check ontology expansion was successful - we only care about the labels for the ontology terms, rather than the URIs
 echo ${response} | jq -e '.docs | map(has("ontology_annotation_label_t", "ontology_annotation_parent_labels_t", "ontology_annotation_ancestors_labels_t", "ontology_annotation_part_of_rel_labels_t")) | all'

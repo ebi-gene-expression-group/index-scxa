@@ -1,5 +1,5 @@
 setup() {
-  export SOLR_COLLECTION=scxa-analytics-v5
+  export SOLR_COLLECTION=scxa-analytics-v6
 }
 
 @test "Check that curl is in the path" {
@@ -28,7 +28,7 @@ setup() {
 }
 
 @test "Check that filtering script is in the path" {
-    run which jsonFilterEmptyFields.sh
+    run which jsonl-filter-empty-string-values.sh
     [ "$status" -eq 0 ]
 }
 
@@ -38,7 +38,7 @@ setup() {
 }
 
 @test "Check that filtering doesn't remove any cell IDs" {
-    CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | jsonFilterEmptyFields.sh | grep \"cell_id\": | sort -u | wc -l`
+    CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | jsonl-filter-empty-string-values.sh | grep \"cell_id\": | sort -u | wc -l`
     UNIQUE_CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | grep \"cell_id\": | sort -u | wc -l`
     [ $CELL_ID_COUNT = $UNIQUE_CELL_ID_COUNT ]
 }
@@ -94,7 +94,7 @@ setup() {
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
-  run load_scxa_analytics_index.sh
+  run load-scxa-analytics.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
@@ -106,7 +106,7 @@ setup() {
   export EXP_ID=E-GEOD-DELETE
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf-delete.tsv
   sed s/E-GEOD-106540/$EXP_ID/ $BATS_TEST_DIRNAME/example-conds-sdrf.tsv > $CONDENSED_SDRF_TSV
-  run load_scxa_analytics_index.sh && rm $CONDENSED_SDRF_TSV && analytics-check-experiment-available.sh
+  run load-scxa-analytics.sh && rm $CONDENSED_SDRF_TSV && analytics-check-experiment-available.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
@@ -199,7 +199,7 @@ setup() {
   fi
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
   export NUM_DOCS_PER_BATCH=20
-  run load_scxa_analytics_index.sh
+  run load-scxa-analytics.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
@@ -211,7 +211,7 @@ setup() {
   export EXP_ID=E-GEOD-DELETE
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf-delete.tsv
   sed s/E-GEOD-106540/$EXP_ID/ $BATS_TEST_DIRNAME/example-conds-sdrf.tsv > $CONDENSED_SDRF_TSV
-  run load_scxa_analytics_index.sh && rm $CONDENSED_SDRF_TSV && analytics-check-experiment-available.sh
+  run load-scxa-analytics.sh && rm $CONDENSED_SDRF_TSV && analytics-check-experiment-available.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
@@ -240,7 +240,7 @@ setup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of suggesters on Solr"
   fi
-  export SCHEMA_VERSION=5
+  export SCHEMA_VERSION=6
   run create-scxa-analytics-suggesters.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
@@ -250,7 +250,7 @@ setup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skip building of suggesters on Solr"
   fi
-  export SCHEMA_VERSION=5
+  export SCHEMA_VERSION=6
   run build-scxa-analytics-suggestions.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
