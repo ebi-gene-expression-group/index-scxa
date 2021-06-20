@@ -51,10 +51,10 @@ post_json() {
 COMMIT_DOCS=${SOLR_COMMIT_DOCS:-1000000}
 echo "Loading $INPUT_JSONL into host $HOST collection $COLLECTION committing every ${COMMIT_DOCS} docs..."
 
-CHUNK_PREFIX=${CHUNK_PREFIX:-`basename -s .jsonl ${INPUT_JSONL}`-}
+CHUNK_PREFIX=${CHUNK_PREFIX:-`basename ${INPUT_JSONL} .jsonl`-chunk-}
 
 NUM_DOCS_PER_BATCH=${NUM_DOCS_PER_BATCH:-50000}
-split -a 3 -l $NUM_DOCS_PER_BATCH $INPUT_JSONL $CHUNK_PREFIX --additional-suffix .jsonl
+split -a 3 -l $NUM_DOCS_PER_BATCH $INPUT_JSONL $CHUNK_PREFIX
 CHUNK_FILES=$(ls $CHUNK_PREFIX*)
 
 cleanup() {
