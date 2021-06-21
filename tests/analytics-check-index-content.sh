@@ -43,3 +43,6 @@ echo ${response} | jq -e --arg org_part "$org_part" '.docs[0].characteristic_val
 
 # Check ontology expansion was successful - we only care about the labels for the ontology terms, rather than the URIs
 echo ${response} | jq -e '.docs | map(has("ontology_annotation_label_t", "ontology_annotation_parent_labels_t", "ontology_annotation_ancestors_labels_t", "ontology_annotation_part_of_rel_labels_t")) | all'
+
+# Check cell type wheel fields have been properly added to the documents
+echo ${response} | jq -e '.docs | map(has("ctw_organism", "ctw_organism_part", "ctw_cell_type")) | all'
