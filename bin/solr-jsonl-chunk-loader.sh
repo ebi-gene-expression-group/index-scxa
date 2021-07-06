@@ -12,6 +12,11 @@ require_env_var INPUT_JSONL
 require_env_var SOLR_COLLECTION
 require_env_var SCHEMA_VERSION
 
+export WORKDIR=${WORKDIR:-`pwd`}
+# Since split writes to $PWD and has no arguments to specify a destination path
+# and this script doesn’t depend on other scripts, it’s safe to pushd/popd
+pushd $WORKDIR
+
 COLLECTION=${SOLR_COLLECTION}-v${SCHEMA_VERSION}
 HOST=${SOLR_HOST:-'localhost:8983'}
 # SOLR_PROCESSORS must be null or a comma-separated list of processors to use during an update
@@ -61,6 +66,7 @@ CHUNK_FILES=$(ls $CHUNK_PREFIX*)
 cleanup() {
   exec 3>&-
   rm ${CHUNK_FILES}
+  popd
 }
 
 

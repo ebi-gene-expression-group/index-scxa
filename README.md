@@ -72,9 +72,11 @@ build-scxa-analytics-suggestions.sh
 
 ## Load data
 This module loads data from a condensed SDRF in an SCXA experiment to the
-`scxa-analytics-v6` collection in Solr. These routines expect the collection to
-be created. You will need write permissions in the scripts directory since
-temporary files are created as part of this process.
+`scxa-analytics-v6` collection in Solr. Temporary files are created as part of
+this process; by default they are written to `$PWD` but this can be overridden
+by exporting the `$WORKDIR` variable. You should make sure that the running
+user has write permissions to either the current working directory, or
+`$WORKDIR` if it has been set.
 
 ```bash
 export SOLR_HOST=192.168.99.100:32080
@@ -118,8 +120,11 @@ rows for a SCXA experiment to the `scxa-gene2experiment-v1` collection in Solr.
 The experiment accession needs to be set in the environment variable `EXP_ID`.
 These routines expect the collection to be created already, and work as an
 update to the content of the collection (deduplicating
-`experiment_accession,gene_id` tuples). You will need write permissions in the
-scripts directory since temporary files are created as part of this process.
+`experiment_accession,gene_id` tuples). Temporary files are created as part of
+this process; by default they are written to `$PWD` but this can be overridden
+by exporting the `$WORKDIR` variable. You should make sure that the running
+user has write permissions to either the current working directory, or
+`$WORKDIR` if it has been set.
 
 ```bash
 export SOLR_HOST=192.168.99.100:32080
