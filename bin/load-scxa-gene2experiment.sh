@@ -5,6 +5,12 @@ set -e
 [ -f ${MATRIX_MARKT_ROWS_GENES_FILE} ] || ( echo "MATRIX_MARKT_ROWS_GENES_FILE pointing to $MATRIX_MARKT_ROWS_GENES_FILE is not a file or does not exist." && exit 1 )
 [ -z ${EXP_ID+x} ] && echo "EXP_ID env var is needed." && exit 1
 
+cleanup() {
+  echo "Cleaning up JSONL file"
+  rm $MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME
+}
+trap cleanup exit
+
 
 export SCHEMA_VERSION=1
 export SOLR_COLLECTION=scxa-gene2experiment
@@ -16,6 +22,3 @@ matrixMarktGenes2json.sh > $MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME
 
 export INPUT_JSONL=$MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME
 solr-jsonl-chunk-loader.sh
-
-echo "Cleaning up JSONL file"
-rm $MATRIX_MARKT_ROWS_GENES_JSONL_FILENAME

@@ -3,6 +3,12 @@ set -e
 
 [ -z ${CONDENSED_SDRF_TSV+x} ] && echo "CONDENSED_SDRF_TSV env var is needed." && exit 1
 
+cleanup() {
+  echo "Cleaning up all JSONL files"
+  rm $COND_SDRF_JSONL_FILENAME $CTW_HELPER_JSONL_FILENAME $CTW_ENRICHED_COND_SDRF_JSONL_FILENAME
+}
+trap cleanup exit
+
 export SCHEMA_VERSION=6
 export SOLR_COLLECTION=scxa-analytics
 export SOLR_PROCESSORS=${SOLR_COLLECTION}-v${SCHEMA_VERSION}_dedupe,${SOLR_COLLECTION}-v${SCHEMA_VERSION}_ontology_expansion
@@ -23,6 +29,3 @@ cell-type-wheel-merge.sh $CTW_HELPER_JSONL_FILENAME $COND_SDRF_JSONL_FILENAME | 
 
 export INPUT_JSONL=$CTW_ENRICHED_COND_SDRF_JSONL_FILENAME
 solr-jsonl-chunk-loader.sh
-
-echo "Cleaning up all JSONL files"
-rm $COND_SDRF_JSONL_FILENAME $CTW_HELPER_JSONL_FILENAME $CTW_ENRICHED_COND_SDRF_JSONL_FILENAME
