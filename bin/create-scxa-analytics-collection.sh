@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=5
+SCHEMA_VERSION=6
 
 set -e
 
@@ -10,7 +10,7 @@ NUM_SHARDS=${SOLR_NUM_SHARDS:-1}
 REPLICATES=${SOLR_REPLICATES:-1}
 MAX_SHARDS_PER_NODE=${SOLR_MAX_SHARDS_PER_NODE:-1}
 
-printf "\n\nCreating collection $COLLECTION based on $HOST"
+printf "\n\nCreating collection $COLLECTION on $HOST"
 curl "http://$HOST/solr/admin/collections?action=CREATE&name=$COLLECTION&numShards=$NUM_SHARDS&replicationFactor=$REPLICATES&maxShardsPerNode=$MAX_SHARDS_PER_NODE"
 
 # Set this value to whatever is needed, it doesn’t really matter with current Lucene versions

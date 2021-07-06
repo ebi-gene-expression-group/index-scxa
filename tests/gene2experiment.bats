@@ -53,7 +53,7 @@ setup() {
   fi
   export MATRIX_MARKT_ROWS_GENES_FILE=$BATS_TEST_DIRNAME/gene2experiment/matrixMarkt-genes.mtx_rows
   export EXP_ID="MyExp"
-  run load_scxa_gene2experiment_index.sh
+  run load-scxa-gene2experiment.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }

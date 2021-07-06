@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=5
+SCHEMA_VERSION=6
 
 #This below long curl request build suggestions on the solr server for the mentioned dictionaries as part of http request
 #Once build request completes, user can search for the suggestions
