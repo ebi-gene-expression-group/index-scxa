@@ -8,7 +8,7 @@
 # allow us to facet over them with the JSON facet API efficiently.
 
 # Add -s to slurp as an array since we want to map(select(...)) first
-jq -s \
+jq -s -c \
 '
 # "Transpose" factors and sample characteristics to a single entry whose key is
 # the factor/characteristic name and the value is the factor/characteristic
