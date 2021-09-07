@@ -58,12 +58,16 @@ group_by(.cell_id) |
 add |
 # Get only the fields we want
 {
-  cell_id,
-  experiment_accession,
-  ctw_organism: .organism,
-  ctw_organism_part: .organism_part,
-  ctw_cell_type: (.["inferred_cell_type_-_ontology_labels"] // .["inferred_cell_type_-_authors_labels"] // .["cell_type"] // .["progenitor_cell_type"])
-} |
-# Remove null-valued entries
-with_entries( select( .value != null ) )
-' $1
+  key: (.cell_id),
+  value: {
+    ctw_organism: .organism,
+    ctw_organism_part: .organism_part,
+    ctw_cell_type: 
+      (.["inferred_cell_type_-_ontology_labels"] // 
+       .["inferred_cell_type_-_authors_labels"] // 
+       .["cell_type"] // .["progenitor_cell_type"]) 
+  }
+}
+' $1 | \
+jq -s '. | from_entries'
+
