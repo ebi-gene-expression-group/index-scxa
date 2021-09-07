@@ -19,7 +19,7 @@ BASE_FILENAME=`basename $CONDENSED_SDRF_TSV .tsv`
 
 COND_SDRF_JSONL_FILENAME=$WORKDIR/$BASE_FILENAME.jsonl
 echo "Transform condensed SDRF file to JSONL -> $COND_SDRF_JSONL_FILENAME"
-condSdrf2tsvForSCXAJSONFactorsIndex.sh $CONDENSED_SDRF_TSV | jq -c > $COND_SDRF_JSONL_FILENAME
+condSdrf2tsvForSCXAJSONFactorsIndex.sh $CONDENSED_SDRF_TSV | jq -c '.' > $COND_SDRF_JSONL_FILENAME
 
 CTW_HELPER_JSON_FILENAME=$WORKDIR/$BASE_FILENAME.cell-type-wheel.json
 echo "Creating cell type wheel helper dictionary JSON file -> $CTW_HELPER_JSON_FILENAME"
