@@ -16,6 +16,8 @@ To create the schema, set the environment variable `SOLR_HOST` to the appropriat
 ```bash
 export SOLR_HOST=192.168.99.100:32080
 
+After doing this you will need to copy `scatlas.owl` file to your running solrcloud containers. The change you need to make is in `create-scxa-analytics-schema.sh`. Set this path `SCXA_ONTOLOGY=${SCXA_ONTOLOGY:-"file:///srv/gxa/scatlas.owl"}` to appropriate path in container where you copied the `scatlas.owl` file. You can download this file from one of the vms running our solr instances. Here you can find the name of the VMs: https://www.ebi.ac.uk/seqdb/confluence/pages/viewpage.action?spaceKey=GXA&title=Atlas+development+environments
+
 create-scxa-analytics-config-set.sh
 create-scxa-analytics-collection.sh
 ```
