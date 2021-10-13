@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
 
-# Merges an object in $2 to an object in $1 if they have the same value in  the
-# field cell_id
-
-jq \
---slurpfile ctw $1 \
+# Add properties from object in $2 whose key matches the field cell_id in $1
+jq -c \
+--slurpfile ctw $2 \
 '
-# Merge entries from the matched object in array $ctw
-# The first element [0] is hard-coded since we expect only a single match
-. as {cell_id: $cell_id} |
-. + ($ctw | map(select(.cell_id == $cell_id))[0])
-' $2
+. + $ctw[0][.cell_id]
+' $1
+

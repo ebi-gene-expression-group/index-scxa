@@ -365,7 +365,7 @@ printf "\n\nCreate ontology expansion update processor"
 curl -X POST -H 'Content-type:application/json' --data-binary '{
   "add-updateprocessor":
   {
-    "name": "'$CORE'_ontology_expansion"
+    "name": "'$CORE'_ontology_expansion",
     "runtimeLib": true,
     "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "annotationField": "ontology_annotation",
@@ -374,3 +374,4 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
     "includeDescendants": false
   }
 }' http://$HOST/solr/$CORE/config
+

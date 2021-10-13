@@ -38,8 +38,9 @@ setup() {
 }
 
 @test "Check that filtering doesn't remove any cell IDs" {
-    CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | jsonl-filter-empty-string-values.sh | grep \"cell_id\": | sort -u | wc -l`
-    UNIQUE_CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | grep \"cell_id\": | sort -u | wc -l`
+    # extra jq . below reformats JSON lines into one line per field to satisfy line uniquenes per cell id.
+    CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | jsonl-filter-empty-string-values.sh | jq . | grep \"cell_id\": | sort -u | wc -l`
+    UNIQUE_CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | jq . | grep \"cell_id\": | sort -u | wc -l`
     [ $CELL_ID_COUNT = $UNIQUE_CELL_ID_COUNT ]
 }
 
