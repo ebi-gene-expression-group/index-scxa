@@ -16,6 +16,8 @@ To create the schema, set the environment variable `SOLR_HOST` to the appropriat
 ```bash
 export SOLR_HOST=192.168.99.100:32080
 
+After doing this you will need to copy `scatlas.owl` file to your running solrcloud containers. Set the SCXA_ONTOLOGY environment variable to the path of the owl file as mounted inside the container.
+
 create-scxa-analytics-config-set.sh
 create-scxa-analytics-collection.sh
 ```
