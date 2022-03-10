@@ -9,7 +9,7 @@ COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v$ANALYTICS_SCHEMA_VERSION"}
 exec 3>&1
 
 echo "Optimising $COLLECTION..."
-HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) -s "http://${HOST}/solr/${coll}/update?optimize=true")
+HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) -s "http://${HOST}/solr/${COLLECTION}/update?optimize=true")
 
 if [[ ! $HTTP_STATUS == 2* ]]; then
    # HTTP Status is not a 2xx code
