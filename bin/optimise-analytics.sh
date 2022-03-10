@@ -3,7 +3,7 @@ SCHEMA_VERSION=6
 
 # On developers environment export SOLR_HOST and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
-COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v$ANALYTICS_SCHEMA_VERSION"}
+COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
 
 # creates a new file descriptor 3 that redirects to 1 (STDOUT)
 exec 3>&1
