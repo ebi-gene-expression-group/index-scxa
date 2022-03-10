@@ -237,6 +237,37 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
+@test "[analytics] Optimise collection" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to Solr"
+  fi
+
+  run optimise-collections.sh
+
+  echo "output = ${output}"
+  [ "${status}" -eq 0 ]
+}
+
+@test "[analytics] Check that analytics optimisation worked" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to Solr"
+  fi
+  run analytics-check-optimisation.sh
+
+  echo "output = ${output}"
+  [ "${status}" -eq 0 ]
+}
+
+@test "[analytics] Check that gene2experiments optimisation worked" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to Solr"
+  fi
+  run analytics-check-optimisation.sh
+
+  echo "output = ${output}"
+  [ "${status}" -eq 0 ]
+}
+
 @test "[analytics] Re-Load suggesters to collection on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of suggesters on Solr"
