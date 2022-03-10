@@ -69,6 +69,27 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
+@test "[gene2experiment] Optimise collection" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to Solr"
+  fi
+
+  run optimise-analytics.sh
+
+  echo "output = ${output}"
+  [ "${status}" -eq 0 ]
+}
+
+@test "[gene2experiment] Check that optimisation worked" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping load to Solr"
+  fi
+  run analytics-check-optimisation.sh
+
+  echo "output = ${output}"
+  [ "${status}" -eq 0 ]
+}
+
 @test "[gene2experiment] Delete data for experiment" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"

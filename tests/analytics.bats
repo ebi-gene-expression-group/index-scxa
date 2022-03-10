@@ -242,23 +242,13 @@ setup() {
     skip "SOLR_HOST not defined, skipping load to Solr"
   fi
 
-  run optimise-collections.sh
+  run optimise-analytics.sh
 
   echo "output = ${output}"
   [ "${status}" -eq 0 ]
 }
 
 @test "[analytics] Check that analytics optimisation worked" {
-  if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping load to Solr"
-  fi
-  run analytics-check-optimisation.sh
-
-  echo "output = ${output}"
-  [ "${status}" -eq 0 ]
-}
-
-@test "[analytics] Check that gene2experiments optimisation worked" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to Solr"
   fi
