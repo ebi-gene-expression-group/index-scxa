@@ -44,6 +44,16 @@ setup() {
     [ $CELL_ID_COUNT = $UNIQUE_CELL_ID_COUNT ]
 }
 
+@test "Upload biosolr lib" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping loading of schema on Solr"
+  fi
+
+  run upload-biosolr-lib.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
 @test "[analytics] Create collection on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of schema on Solr"

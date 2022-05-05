@@ -367,7 +367,7 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
   {
     "name": "'$CORE'_ontology_expansion",
     "runtimeLib": true,
-    "class": "uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
+    "class": "biosolr:uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "annotationField": "ontology_annotation",
     "ontologyURI": "'$SCXA_ONTOLOGY'",
     "includeChildren": false,
