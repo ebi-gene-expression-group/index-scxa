@@ -5,7 +5,8 @@ on: [pull_request]
 jobs:
   setup:
     name: "Test with containers"
-    runs-on: "ubuntu-latest"
+    # runs-on: "ubuntu-latest"
+    runs-on: self-hosted
     strategy:
       fail-fast: true
     defaults:
