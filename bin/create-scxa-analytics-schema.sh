@@ -361,17 +361,31 @@ curl -X POST -H 'Content-type:application/json' --data-binary '{
 }' http://$HOST/solr/$CORE/config
 
 
+#creates a new file descriptor 3 that redirects to 1 (STDOUT)
+exec 3>&1
+
 printf "\n\nCreate ontology expansion update processor"
-curl -X POST -H 'Content-type:application/json' --data-binary '{
+HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) -X POST -H 'Content-type:application/json' -d '{
   "add-updateprocessor":
   {
     "name": "'$CORE'_ontology_expansion",
-    "runtimeLib": true,
     "class": "biosolr:uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "annotationField": "ontology_annotation",
     "ontologyURI": "'$SCXA_ONTOLOGY'",
-    "includeChildren": false,
-    "includeDescendants": false
+    "includeChildren": "false",
+    "includeDescendants": "false"
   }
-}' http://$HOST/solr/$CORE/config
+}' http://$HOST/solr/$CORE/config)
+
+if [[ ! $HTTP_STATUS == 2* ]];
+then
+	# HTTP Status is not a 2xx code, so it is an error.
+   echo "Failed to create add-updateprocessor $CORE\_ontology_expansion"
+   exit 1
+fi
+
+printf "\n\nSet version of Biosolr package"
+curl -X POST -H 'Content-type:application/json' --data-binary "{
+    set: {PKG_VERSIONS: {biosolr: '"$BIOSOLR_VERSION"'}}
+  }" "http://$HOST/api/collections/$CORE/config/params"
 

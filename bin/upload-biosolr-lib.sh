@@ -29,7 +29,13 @@ then
 fi
 
 # Verify upload of signed JAR
-curl http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true
+HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true" )
+if [[ ! $HTTP_STATUS == 2* ]];
+then
+	# HTTP Status is not a 2xx code, so it is an error.
+   echo "Could not verify biosolr jar for http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true"
+   exit 1
+fi
 
 # Create the package
 HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package" -H 'Content-type:application/json' -d '
@@ -45,5 +51,31 @@ then
    echo "Failed to create the remote biosolr package for $REMOTE_BIOSOLR_PATH"
    exit 1
 fi
+
+# Verify the package
+HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package?omitHeader=true" )
+
+if [[ ! $HTTP_STATUS == 2* ]];
+then
+	# HTTP Status is not a 2xx code, so it is an error.
+   echo "Failed to create the remote biosolr package for $REMOTE_BIOSOLR_PATH"
+   exit 1
+fi
+
+
+# # Deploy the package
+# HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package" -H 'Content-type:application/json' -d '
+# {"deploy": {
+#          "package" : "biosolr",
+#          "version":"'$BIOSOLR_VERSION'",
+#          }')
+
+
+# if [[ ! $HTTP_STATUS == 2* ]];
+# then
+# 	# HTTP Status is not a 2xx code, so it is an error.
+#    echo "Failed to create the remote biosolr package for $REMOTE_BIOSOLR_PATH"
+#    exit 1
+# fi
 
 echo "The package for biosolr should now be ready for attaching it to a handler/processor during schema creation."
