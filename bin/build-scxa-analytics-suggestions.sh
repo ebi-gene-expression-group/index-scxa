@@ -9,6 +9,9 @@ SCHEMA_VERSION=6
 # on developers environment export SOLR_HOST and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
 COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v${SCHEMA_VERSION}"}
+SOLR_USER=${SOLR_USER:-"solr"}
+SOLR_PASS=${SOLR_PASS:-"SolrRocks"}
+SOLR_AUTH="-u $SOLR_USER:$SOLR_PASS"
 
 REQUEST_URI="http://$HOST/solr/$COLLECTION/suggest?suggest=true"
 BUILD=${BUILD_SUGGESTERS:-true}
@@ -26,7 +29,7 @@ if [ "$BUILD" = true ] ; then
         # For some reason the error trace that can come back invalidates the
         # json so we need some 'tr' and 'sed' magic
         
-        response=$(curl "$REQUEST_URI&suggest.build=true&suggest.dictionary=$suggester")
+        response=$(curl $SOLR_AUTH $SOLR_AUTH "$REQUEST_URI&suggest.build=true&suggest.dictionary=$suggester")
         response=$(echo -e "$response" | tr -d '\n' | sed 's/\t/ /g')
         statusCode=$(echo -e "$response" | jq '.responseHeader.status')
         
@@ -54,7 +57,7 @@ while [ -n "$fails" ] && [ "$counter" -lt "$maxTries" ]; do
     # that still-building suggesters provide a return code of 500.
 
     for suggester in $suggesters; do
-        response=$(curl -X GET "$REQUEST_URI&suggest.dictionary=$suggester&suggest.q=$testQuery" 2> /dev/null)
+        response=$(curl $SOLR_AUTH -X GET "$REQUEST_URI&suggest.dictionary=$suggester&suggest.q=$testQuery" 2> /dev/null)
         response=$(echo -e "$response" | tr -d '\n' | sed 's/\t/ /g')
 
         statusCode=$(echo -e "$response" | jq '.responseHeader.status')

@@ -5,6 +5,9 @@ set -e
 CWD=`dirname "$0"`
 # on developers environment export SOLR_HOST and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
+SOLR_USER=${SOLR_USER:-"solr"}
+SOLR_PASS=${SOLR_PASS:-"SolrRocks"}
+SOLR_AUTH="-u $SOLR_USER:$SOLR_PASS"
 
 [ -z ${BIOSOLR_JAR_PATH+x} ] && echo "BIOSOLR_JAR_PATH env var is needed." && exit 1
 [ -z ${BIOSOLR_VERSION+x} ] && echo "BIOSOLR_VERSION env var is needed." && exit 1
@@ -19,7 +22,7 @@ exec 3>&1
 
 REMOTE_BIOSOLR_PATH=/biosolr/$BIOSOLR_VERSION/biosolr.jar
 # Upload JAR with signature
-HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) --data-binary @$BIOSOLR_JAR_PATH -X PUT  "http://$HOST/api/cluster/files$REMOTE_BIOSOLR_PATH?sig=$SIGNATURE")
+HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) --data-binary @$BIOSOLR_JAR_PATH -X PUT  "http://$HOST/api/cluster/files$REMOTE_BIOSOLR_PATH?sig=$SIGNATURE")
 
 if [[ ! $HTTP_STATUS == 2* ]];
 then
@@ -29,7 +32,7 @@ then
 fi
 
 # Verify upload of signed JAR
-HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true" )
+HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true" )
 if [[ ! $HTTP_STATUS == 2* ]];
 then
 	# HTTP Status is not a 2xx code, so it is an error.
@@ -38,7 +41,7 @@ then
 fi
 
 # Create the package
-HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package" -H 'Content-type:application/json' -d '
+HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package" -H 'Content-type:application/json' -d '
 {"add": {
          "package" : "biosolr",
          "version":"'$BIOSOLR_VERSION'",
@@ -53,7 +56,7 @@ then
 fi
 
 # Verify the package
-HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package?omitHeader=true" )
+HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package?omitHeader=true" )
 
 if [[ ! $HTTP_STATUS == 2* ]];
 then
@@ -64,7 +67,7 @@ fi
 
 
 # # Deploy the package
-# HTTP_STATUS=$(curl -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package" -H 'Content-type:application/json' -d '
+# HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package" -H 'Content-type:application/json' -d '
 # {"deploy": {
 #          "package" : "biosolr",
 #          "version":"'$BIOSOLR_VERSION'",
