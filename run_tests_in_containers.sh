@@ -9,7 +9,7 @@ ZK_PORT=2181
 # 3.5.8
 ZK_VERSION=3.6.2
 DOCKER_NET=net-index-scxa
-docker stop my_solr && docker rm $SOLR_CONT_NAME && docker $ZK_HOST
+docker stop my_solr && docker rm $SOLR_CONT_NAME && docker rm $ZK_HOST
 
 
 docker network create $DOCKER_NET
