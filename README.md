@@ -9,6 +9,19 @@ Scripts to create and load data into the `scxa-*` Solr indexes (for analytics an
 
 Version 0.2.0 was used for loading the August/September 2018 Single Cell Expression Atlas release.
 
+# Authentication
+
+The setup on the CI is made to use authentication with default user and password. The calls assume these settings (solr:SolrRocks), but the user and password can be modified by doing:
+
+```
+export SOLR_USER=<new-user>
+export SOLR_PASS=<new-pass>
+```
+
+To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`.
+
+In that scheme at least, write operations would require user and password, but read operations should not. Minimal authentication had to be added since Solr 8.x doesn't allow certain operations (like those related to config sets) without authentication.
+
 # `scxa-analytics` index v6
 ## Create collection
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
@@ -24,13 +37,16 @@ create-scxa-analytics-collection.sh
 ```
 
 ## Enable BioSolr
-`scxa-analytics-v5` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 2 options:
+
+`scxa-analytics-v5` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 3 options:
 
 ### Option 1: Local `.jar` file
-Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory.
+
+Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory. This is the oldest option, and has some security issues, but for testing should be fine.
 
 ### Option 2: Blob store API
-You can use the BioSolr jar as a runtime library stored in the blob store API. In order to enable the use of runtime libraries, you must start your Solr instance with the flag `-Denable.runtime.lib=true`.
+
+You can use the BioSolr jar as a runtime library stored in the blob store API. In order to enable the use of runtime libraries, you must start your Solr instance with the flag `-Denable.runtime.lib=true`. **This option is now deprecated in solr 8 and will not be available anymore in Solr 9.**
 
 To load the jar, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 
@@ -42,7 +58,25 @@ create-scxa-analytics-biosolr-lib.sh
 
 You can override the default target Solr collection by setting `SOLR_COLLECTION`. You can also provide your own path to the BioSolr jar file by setting `BIOSOLR_JAR_PATH`.
 
+### Option 3: Solr package manager (used in the CI - preferred for production)
+
+Newer versions of solr introduced a new approach, named package manager, to deal with 3rd party JARs and files to be made available to solr. This implies the following steps:
+
+- Create a set of private/public keys (you can run [create-keys-for-tests.sh](tests/create-keys-for-tests.sh) as shown in [run_tests_in_containers.sh](run_tests_in_containers.sh) and keep those).
+- Start solr cloud with the `-Denable.packages=true` as done in the CI.
+- Upload the public key to solr through Zookeeper (see how the `SIGNING_*` variables are used and the `Upload der to Solr` part, both in [run_tests_in_containers.sh](run_tests_in_containers.sh)).
+- Sign the JAR file with the private key and upload it to the solr file store (in our case, BioSolr solr-ontology-update-processor-2.0.0.jar, done by [upload-biosolr-lib.sh](bin/upload-biosolr-lib.sh) in the [analytics.bats](tests/analytics.bats), noting that it is running inside the solr container and that for this purpose, the private key was mounted inside that container on startup).
+- Create the package `biosolr` (done as well by [upload-biosolr-lib.sh](bin/upload-biosolr-lib.sh)) in solr pointing to that signed JAR in the solr file store.
+- Verify the package (done as well by [upload-biosolr-lib.sh](bin/upload-biosolr-lib.sh)).
+- Deploy the package as part of the schema creation (done by [create-scxa-analystics-schema.sh](bin/create-scxa-analytics-schema.sh)).
+
+In the CI, all these steps are done. In some cases, through the API, and in some cases through direct `bin/solr` calls, which might require a container with the same solr version plus the URI to the desired solr server (or execute them inside the same solr server).
+
+Please note that for changes in the Solr version, most likely changes in [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) will be required, at the very least to point to the newer Solr version, and hence a new JAR will need to be added here. Version 2.0.0 was built against Solr 8.7 (as used in the CI).
+
+
 ## Create schema
+
 ```bash
 create-scxa-analytics-schema.sh
 ```

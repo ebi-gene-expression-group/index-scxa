@@ -67,6 +67,7 @@ fi
 
 
 # # Deploy the package
+# # This is not needed since it happens on schema creation of the update-processor
 # HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/cluster/package" -H 'Content-type:application/json' -d '
 # {"deploy": {
 #          "package" : "biosolr",

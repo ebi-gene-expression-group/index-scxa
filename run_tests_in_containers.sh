@@ -35,13 +35,9 @@ docker run --rm --net $DOCKER_NET --name $SOLR_CONT_NAME \
     -v $( pwd )/tests:/opt/tests \
     -v $( pwd )/$SIGNING_PUBLIC_KEY_DER:/tmp/$SIGNING_PUBLIC_KEY_DER \
     -t solr:$SOLR_VERSION \
-    -c -Denable.packages=true -Denable.runtime.lib=true -m 2g
+    -c -Denable.packages=true -m 2g
 
 
-# docker run --net mynet --name my_solr \
-#     -v $( pwd )/tests:/usr/local/tests \
-#     -v $(pwd)/lib/solr-ontology-update-processor-1.2.jar:/opt/solr/server/solr/lib/solr-ontology-update-processor-1.2.jar \
-#     -d -p 8983:8983 -t solr:8.7 -DzkRun -Denable.runtime.lib=true -m 2g
 
 SECURITY_JSON=/usr/local/tests/security.json
 
@@ -55,7 +51,6 @@ docker run --net $DOCKER_NET \
 echo "Upload public der key to Solr"
 docker exec -d $SOLR_CONT_NAME \
     bin/solr package add-key /tmp/$SIGNING_PUBLIC_KEY_DER
-    #-t solr:8.7 bin/solr zk cp file:/tmp/$SIGNING_PUBLIC_KEY_DER zk:/keys/exe/$SIGNING_PUBLIC_KEY_DER -z $ZK_HOST:$ZK_PORT
 
 docker build -t test/index-scxa-module .
 sleep 20
