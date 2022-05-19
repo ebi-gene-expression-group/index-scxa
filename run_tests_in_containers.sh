@@ -47,13 +47,15 @@ docker run --net $DOCKER_NET \
     -d -v $( pwd )/tests/security.json:$SECURITY_JSON \
     -t solr:$SOLR_VERSION bin/solr zk cp file:$SECURITY_JSON zk:/security.json -z $ZK_HOST:$ZK_PORT
 
+sleep 10
+
 # Upload der to Solr
 echo "Upload public der key to Solr"
 docker exec -d $SOLR_CONT_NAME \
     bin/solr package add-key /tmp/$SIGNING_PUBLIC_KEY_DER
 
 docker build -t test/index-scxa-module .
-sleep 20
+sleep 10
 
 BIOSOLR_REMOTE_JAR_PATH=/packages/solr-ontology-update-processor-$BIOSOLR_VERSION.jar
 
