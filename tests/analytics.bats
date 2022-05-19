@@ -37,6 +37,23 @@ setup() {
     [  $? -eq 0 ]
 }
 
+@test "[solr-auth] Create definitive users" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skipping loading of schema on Solr"
+  fi
+
+  # default user to start - admin user will be used by other tasks
+  export SOLR_USER=solr
+  export SOLR_PASS=SolrRocks
+
+  echo "Solr user: $SOLR_USER"
+  echo "Solr pwd: $SOLR_PASS"
+
+  run create-users.sh
+  echo "output = ${output}"
+  [ "${status}" -eq 0 ]
+}
+
 @test "Check that filtering doesn't remove any cell IDs" {
     # extra jq . below reformats JSON lines into one line per field to satisfy line uniquenes per cell id.
     CELL_ID_COUNT=`condSdrf2tsvForSCXAJSONFactorsIndex.sh $BATS_TEST_DIRNAME/example-conds-sdrf.tsv | jsonl-filter-empty-string-values.sh | jq . | grep \"cell_id\": | sort -u | wc -l`

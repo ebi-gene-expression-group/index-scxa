@@ -66,4 +66,8 @@ docker run -i --net $DOCKER_NET -v $( pwd )/tests:/opt/tests \
     -e BIOSOLR_JAR_PATH=$BIOSOLR_REMOTE_JAR_PATH \
     -e BIOSOLR_VERSION=$BIOSOLR_VERSION \
     -e SIGNING_PRIVATE_KEY=/packages/$SIGNING_PRIVATE_KEY \
+    -e ADMIN_USER=atlas \
+    -e ADMIN_U_PWD=fjaso983dada \
+    -e QUERY_USER=queryu \
+    -e QUERY_U_PWD=fsaf897asd3 \
     --entrypoint=/opt/tests/run-tests.sh test/index-scxa-module
