@@ -47,7 +47,7 @@ docker run --net $DOCKER_NET \
     -d -v $( pwd )/tests/security.json:$SECURITY_JSON \
     -t solr:$SOLR_VERSION bin/solr zk cp file:$SECURITY_JSON zk:/security.json -z $ZK_HOST:$ZK_PORT
 
-sleep 10
+sleep 20
 
 # Upload der to Solr
 echo "Upload public der key to Solr"
