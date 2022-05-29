@@ -10,6 +10,6 @@ docker run --net mynet --name my_solr -v $( pwd )/tests:/usr/local/tests -v $(pw
 docker build -t test/index-scxa-module .
 sleep 20
 
-docker exec -it --user=solr my_solr bin/solr create_collection -c scxa-analytics-v6
+docker exec -it --user=solr my_solr bin/solr create_collection -c scxa-analytics-v7
 docker exec -it --user=solr my_solr bin/solr create_collection -c scxa-gene2experiment-v1
 docker run -i --net mynet -v $( pwd )/tests:/usr/local/tests -e SOLR_HOST=$SOLR_HOST --entrypoint=/usr/local/tests/run-tests.sh test/index-scxa-module
