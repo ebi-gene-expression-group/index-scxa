@@ -36,6 +36,7 @@ curl $SOLR_AUTH -X POST -H 'Content-Type: application/json' -d '{
         "field": "ontology_annotation_label_t",
         "payloadField": "ctw_organism",
         "suggestAnalyzerFieldType": "lowercase",
+        "highlight": "false",
         "buildOnStartup": "false"
       },
       {
@@ -46,6 +47,7 @@ curl $SOLR_AUTH -X POST -H 'Content-Type: application/json' -d '{
         "field": "ontology_annotation_ancestors_labels_t",
         "payloadField": "ctw_organism",
         "suggestAnalyzerFieldType": "lowercase",
+        "highlight": "false",
         "buildOnStartup": "false"
       },
       {
@@ -56,6 +58,7 @@ curl $SOLR_AUTH -X POST -H 'Content-Type: application/json' -d '{
         "field": "ontology_annotation_parent_labels_t",
         "payloadField": "ctw_organism",
         "suggestAnalyzerFieldType": "lowercase",
+        "highlight": "false",
         "buildOnStartup": "false"
       },
       {
@@ -66,6 +69,7 @@ curl $SOLR_AUTH -X POST -H 'Content-Type: application/json' -d '{
         "field": "ontology_annotation_synonyms_t",
         "payloadField": "ctw_organism",
         "suggestAnalyzerFieldType": "lowercase",
+        "highlight": "false",
         "buildOnStartup": "false"
       }
 	  ]
