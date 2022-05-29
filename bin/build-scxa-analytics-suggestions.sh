@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=6
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. ${DIR}/../scxa-analytics-schema-version.env
 
 #This below long curl request build suggestions on the solr server for the mentioned dictionaries as part of http request
 #Once build request completes, user can search for the suggestions

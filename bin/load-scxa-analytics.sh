@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. ${DIR}/../scxa-analytics-schema-version.env
+
 set -e
 
 [ -z ${CONDENSED_SDRF_TSV+x} ] && echo "CONDENSED_SDRF_TSV env var is needed." && exit 1
@@ -11,7 +14,8 @@ trap cleanup exit
 
 export WORKDIR=${WORKDIR:-`pwd`}
 
-export SCHEMA_VERSION=6
+# SCHEMA_VERSION needs to be exported for solr-jsonl-chunk-loader.sh to build the collection name properly
+export SCHEMA_VERSION=${SCHEMA_VERSION}
 export SOLR_COLLECTION=scxa-analytics
 export SOLR_PROCESSORS=${SOLR_COLLECTION}-v${SCHEMA_VERSION}_dedupe,${SOLR_COLLECTION}-v${SCHEMA_VERSION}_ontology_expansion
 
