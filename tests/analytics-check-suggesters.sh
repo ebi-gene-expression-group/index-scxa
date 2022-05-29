@@ -4,6 +4,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 HOST=${SOLR_HOST:-"localhost:8983"}
 COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v${SCHEMA_VERSION}"}
+SOLR_USER=${SOLR_USER:-"solr"}
+SOLR_PASS=${SOLR_PASS:-"SolrRocks"}
+SOLR_AUTH="-u $SOLR_USER:$SOLR_PASS"
 
 REQUEST_URI="http://$HOST/solr/$COLLECTION/suggest?suggest=true"
 BUILD=${BUILD_SUGGESTERS:-true}
@@ -24,7 +27,7 @@ while [ -n "$FAILS" ] && [ "$COUNTER" -lt "$MAX_TRIES" ]; do
     # that still-building suggesters provide a return code of 500.
 
     for SUGGESTER in $SUGGESTERS; do
-        RESPONSE=$(curl -X GET "$REQUEST_URI&suggest.dictionary=$SUGGESTER&suggest.q=$TEST_QUERY" 2> /dev/null)
+        RESPONSE=$(curl $SOLR_AUTH -X GET "$REQUEST_URI&suggest.dictionary=$SUGGESTER&suggest.q=$TEST_QUERY" 2> /dev/null)
         RESPONSE=$(echo -e "$RESPONSE" | tr -d '\n' | sed 's/\t/ /g')
 
         STATUS_CODE=$(echo -e "$RESPONSE" | jq '.responseHeader.status')
