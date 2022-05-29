@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-. ${DIR}/../scxa-analytics-schema-version.env
+. ${DIR}/scxa-analytics-schema-version.env
 
 # The curl request below builds suggesters on Solr. When the request completes you may search for suggestions. E.g.:
 # curl -X GET 'http://${HOST}/solr/${COLLECTION}/suggest?suggest=true&suggest.dictionary=ontologyAnnotationSuggester&suggest.dictionary=ontologyAnnotationAncestorSuggester&suggest.dictionary=ontologyAnnotationParentSuggester&suggest.dictionary=ontologyAnnotationSynonymSuggester&suggest.dictionary=ontologyAnnotationChildSuggester&suggest.q=skin'
