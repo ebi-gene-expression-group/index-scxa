@@ -127,14 +127,12 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Load additional dataset for deletion testing" {
+@test "[analytics] Load additional dataset for deletion testing 1" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
   export EXP_ID=E-GEOD-DELETE
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf-delete.tsv
-  # export SOLR_USER=QUERY_USER
-  # export SOLR_PASS=QUERY_U_PWD
 
   sed s/E-GEOD-106540/$EXP_ID/ $BATS_TEST_DIRNAME/example-conds-sdrf.tsv > $CONDENSED_SDRF_TSV
   run load-scxa-analytics.sh 
@@ -227,7 +225,7 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Load data to Solr" {
+@test "[analytics] Load data to Solr 2" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
@@ -238,21 +236,20 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Load additional dataset for deletion testing" {
+@test "[analytics] Load additional dataset for deletion testing 2" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
   export EXP_ID=E-GEOD-DELETE
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf-delete.tsv
-  export SOLR_USER=QUERY_USER
-  export SOLR_PASS=QUERY_U_PWD
+  
   sed s/E-GEOD-106540/$EXP_ID/ $BATS_TEST_DIRNAME/example-conds-sdrf.tsv > $CONDENSED_SDRF_TSV
   run load-scxa-analytics.sh && rm $CONDENSED_SDRF_TSV && analytics-check-experiment-available.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
 
-@test '[analytics] Delete additional dataset' {
+@test '[analytics] Delete additional dataset 2' {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
@@ -262,7 +259,7 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test "[analytics] Check correctness of load" {
+@test "[analytics] Check correctness of load 2" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
   fi
