@@ -6,9 +6,12 @@ set -e
 # on developers environment export SOLR_HOST_PORT and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
 CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
+SOLR_USER=${SOLR_USER:-"solr"}
+SOLR_PASS=${SOLR_PASS:-"SolrRocks"}
+SOLR_AUTH="-u $SOLR_USER:$SOLR_PASS"
 
 echo "Retrieving fields in the schema"
-curl "http://$HOST/solr/$CORE/schema?wt=json" \
+curl $SOLR_AUTH "http://$HOST/solr/$CORE/schema?wt=json" \
   | jq '.schema.fields + .schema.dynamicFields | .[].name ' | sed s/\"//g \
   | sort > loaded_fields.txt
 
