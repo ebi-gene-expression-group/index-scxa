@@ -17,18 +17,19 @@ BUILD=${BUILD_SUGGESTERS:-true}
 
 # Build suggesters one by one
 if [ "$BUILD" = true ] ; then
-    for SUGGESTER in ontologyAnnotationSuggester ontologyAnnotationAncestorSuggester ontologyAnnotationParentSuggester ontologyAnnotationSynonymSuggester; do
+  for SUGGESTER in ontologyAnnotationSuggester ontologyAnnotationAncestorSuggester ontologyAnnotationParentSuggester ontologyAnnotationSynonymSuggester; do
+    echo "Building $suggester"
+        
+    # For some reason the error trace that can come back invalidates the
+    # JSON so we need some 'tr' and 'sed' magic
+    RESPONSE=$(curl $SOLR_AUTH "$REQUEST_URI&suggest.build=true&suggest.dictionary=$SUGGESTER")
+    RESPONSE=$(echo -e "$RESPONSE" | tr -d '\n' | sed 's/\t/ /g')
+    STATUS_CODE=$(echo -e "$RESPONSE" | jq '.responseHeader.status')
 
-        echo "Building $suggester"    
-        
-        # For some reason the error trace that can come back invalidates the
-        # JSON so we need some 'tr' and 'sed' magic
-        
-        RESPONSE=$(curl $SOLR_AUTH "$REQUEST_URI&suggest.build=true&suggest.dictionary=$SUGGESTER")
-        RESPONSE=$(echo -e "$RESPONSE" | tr -d '\n' | sed 's/\t/ /g')
-        STATUS_CODE=$(echo -e "$RESPONSE" | jq '.responseHeader.status')
-        
-        if [ "$STATUS_CODE" -eq '0' ]; then
-            echo "Successfully built suggester: $SUGGESTER"
-
-            echo -e "Failed to build suggester $SUGGESTER, response was: \n\n$RESPONSE\n" 1>&2
+    if [ "$STATUS_CODE" -eq '0' ]; then
+      echo "Successfully built suggester: $SUGGESTER"
+    else
+      echo -e "Failed to build suggester $SUGGESTER, response was: \n\n$RESPONSE\n" 1>&2
+    fi
+  done
+fi
