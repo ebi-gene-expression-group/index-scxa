@@ -6,7 +6,7 @@ HOST=${SOLR_HOST:-"localhost:8983"}
 COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v${SCHEMA_VERSION}"}
 
 REQUEST_URI="http://$HOST/solr/$COLLECTION/suggest?suggest=true"
-TEST_QUERY=lymph
+TEST_QUERY=blood
 
 set -e
 for SUGGESTER in ontologyAnnotationSuggester ontologyAnnotationAncestorSuggester ontologyAnnotationParentSuggester ontologyAnnotationSynonymSuggester; do
