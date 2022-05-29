@@ -6,7 +6,9 @@ HOST=${SOLR_HOST:-"localhost:8983"}
 COLLECTION=${SOLR_COLLECTION:-"scxa-analytics-v${SCHEMA_VERSION}"}
 
 REQUEST_URI="http://$HOST/solr/$COLLECTION/suggest?suggest=true"
-TEST_QUERY=blood
+# I can’t find any query that produces results in all suggesters except one letter, maybe we should have richer
+# fixtures if we want something more meaningful...
+TEST_QUERY=h
 
 set -e
 for SUGGESTER in ontologyAnnotationSuggester ontologyAnnotationAncestorSuggester ontologyAnnotationParentSuggester ontologyAnnotationSynonymSuggester; do
