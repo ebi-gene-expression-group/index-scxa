@@ -135,10 +135,7 @@ setup() {
   export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf-delete.tsv
 
   sed s/E-GEOD-106540/$EXP_ID/ $BATS_TEST_DIRNAME/example-conds-sdrf.tsv > $CONDENSED_SDRF_TSV
-  run load-scxa-analytics.sh 
-  rm $CONDENSED_SDRF_TSV 
-  echo "before check experiment available"
-  run analytics-check-experiment-available.sh
+  run load-scxa-analytics.sh && rm $CONDENSED_SDRF_TSV && analytics-check-experiment-available.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }
