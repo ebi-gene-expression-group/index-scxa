@@ -4,6 +4,8 @@ source "$(dirname "${BASH_SOURCE[0]}")"/runner-setup.sh
 
 # to check why we cannot write to /tmp
 ls -l /
+echo "Current user:"
+whoami
 
 if [ "$#" -eq 0 ]; then
 	bats --tap "$(dirname "${BASH_SOURCE[0]}")"
