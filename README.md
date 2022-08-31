@@ -18,9 +18,17 @@ export SOLR_USER=<new-user>
 export SOLR_PASS=<new-pass>
 ```
 
-To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`.
+To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`. To setup users in a production setting the script [create-users.sh](bin/create-users.sh) will receive two set of users:
 
-In that scheme at least, write operations would require user and password, but read operations should not. Minimal authentication had to be added since Solr 8.x doesn't allow certain operations (like those related to config sets) without authentication.
+```
+ADMIN_USER=<admin-username>
+ADMIN_U_PWD=<password>
+
+QUERY_USER=<query-username>
+QUERY_U_PWD=<password>
+```
+
+it will create both users, giving the first admin privileges and the second reading privileges only, delete the default user and set the instance to only work with authenticated users.
 
 # `scxa-analytics` index v6
 ## Create collection
