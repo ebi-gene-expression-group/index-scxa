@@ -64,7 +64,7 @@ docker exec --user=solr $SOLR_CONT_NAME bin/solr create_collection -c scxa-gene2
 docker run -i --net $DOCKER_NET -v $( pwd )/tests:/opt/tests \
     -v $(pwd)/lib/solr-ontology-update-processor-$BIOSOLR_VERSION.jar:$BIOSOLR_REMOTE_JAR_PATH \
     -v $(pwd)/$SIGNING_PRIVATE_KEY:/packages/$SIGNING_PRIVATE_KEY \
-    -v /tmp:/var/tmp \
+    --privileged \
     -e SOLR_HOST=$SOLR_HOST \
     -e BIOSOLR_JAR_PATH=$BIOSOLR_REMOTE_JAR_PATH \
     -e BIOSOLR_VERSION=$BIOSOLR_VERSION \
