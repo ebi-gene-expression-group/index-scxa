@@ -73,5 +73,4 @@ docker run -i --net $DOCKER_NET -v $( pwd )/tests:/opt/tests \
     -e ADMIN_U_PWD=fjaso983dada \
     -e QUERY_USER=queryu \
     -e QUERY_U_PWD=fsaf897asd3 \
-    -e TMPDIR=/var/tmp \
     --entrypoint=/opt/tests/run-tests.sh test/index-scxa-module
