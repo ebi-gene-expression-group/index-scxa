@@ -1,6 +1,6 @@
 FROM quay.io/jitesoft/alpine:3.11
 
-RUN apk update && apk add bash curl jq bats
+RUN apk update && apk add bash curl jq bats openssl
 
 ENV BIOSOLR_JAR_PATH /usr/local/lib/solr-ontology-update-processor-1.2.jar
 
