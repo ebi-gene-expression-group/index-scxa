@@ -171,12 +171,6 @@ setup() {
   [ "$status" -eq 0 ]
 }
 
-@test '[analytics] Delete collection' {
-  run delete_collection.sh
-  echo "output = ${output}"
-  [ "$status" -eq 0 ]
-}
-
 @test "[analytics] Check that there is nothing loaded" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping load to SOLR"
@@ -185,6 +179,12 @@ setup() {
   run analytics-check-index-content.sh
   echo "output = ${output}"
   [ "$status" -ne 0 ]
+}
+
+@test '[analytics] Delete collection' {
+  run delete_collection.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
 }
 
 @test '[analytics] Re-create collection' {
