@@ -18,17 +18,9 @@ export SOLR_USER=<new-user>
 export SOLR_PASS=<new-pass>
 ```
 
-To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`. To setup users in a production setting the script [create-users.sh](bin/create-users.sh) will receive two set of users:
+To use default auth in a new SolrCloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`.
 
-```
-ADMIN_USER=<admin-username>
-ADMIN_U_PWD=<password>
-
-QUERY_USER=<query-username>
-QUERY_U_PWD=<password>
-```
-
-it will create both users, giving the first admin privileges and the second reading privileges only, delete the default user and set the instance to only work with authenticated users.
+In that scheme at least, write operations would require user and password, but read operations should not. Minimal authentication had to be added since Solr 8.x doesn't allow certain operations without authentication.
 
 # `scxa-analytics` index v6
 ## Create collection
@@ -40,7 +32,6 @@ export SOLR_HOST=192.168.99.100:32080
 
 After doing this you will need to copy the `scatlas.owl` file to *all* your running SolrCloud containers. Set the `SCXA_ONTOLOGY` environment variable to the path of the OWL file as mounted inside the container. Remember to prepend `file://` to the value of the variable, e.g.: `file:///opt/solr/server/solr/scatlas.owl`.
 ```bash
-create-scxa-analytics-config-set.sh
 create-scxa-analytics-collection.sh
 ```
 
@@ -150,7 +141,6 @@ To create the schema, set the environment variable `SOLR_HOST` to the appropriat
 ```bash
 export SOLR_HOST=192.168.99.100:32080
 
-create-scxa-gene2experiment-config-set.sh
 create-scxa-gene2experiment-collection.sh
 create-scxa-gene2experiment-schema.sh
 ```
