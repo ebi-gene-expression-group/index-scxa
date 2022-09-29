@@ -22,6 +22,7 @@ accession=$(head -n 1 $CONDENSED_SDRF_TSV | awk -F'\t' '{ print $1 }')
 # BioSolr seems to do the ontology expansion in the background and not blocking
 # the loading call. As such, we need to wait during testing to make sure that
 # elements have been loaded
+echo "Checking for accession $accession ..."
 pings=0
 numRecordsLoaded=0
 while [ "$numRecordsLoaded" -eq 0 ]; do
