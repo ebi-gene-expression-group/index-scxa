@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=6
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. ${DIR}/scxa-analytics-schema-version.env
 
 set -e
 
@@ -7,7 +8,7 @@ CWD=`dirname "$0"`
 # on developers environment export SOLR_HOST and export SOLR_COLLECTION before running
 HOST=${SOLR_HOST:-"localhost:8983"}
 CORE=${SOLR_COLLECTION:-"scxa-analytics-v$SCHEMA_VERSION"}
-BIOSOLR_JAR_PATH="${BIOSOLR_JAR_PATH:-${CWD}/../lib/solr-ontology-update-processor-1.2.jar}"
+BIOSOLR_JAR_PATH="${BIOSOLR_JAR_PATH:-${CWD}/../lib/solr-ontology-update-processor-2.0.0.jar}"
 
 #creates a new file descriptor 3 that redirects to 1 (STDOUT)
 exec 3>&1

@@ -1,5 +1,5 @@
 setup() {
-  export SOLR_COLLECTION=scxa-analytics-v6
+  export SOLR_COLLECTION=scxa-analytics-v7
 }
 
 @test "Check that curl is in the path" {
@@ -78,7 +78,6 @@ setup() {
   if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
     skip "Solr collection has been predifined on the current setup"
   fi
-  run create-scxa-analytics-config-set.sh
   run create-scxa-analytics-collection.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
@@ -175,16 +174,6 @@ setup() {
   run delete_collection.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
-}
-
-@test "[analytics] Check that there is nothing loaded" {
-  if [ -z ${SOLR_HOST+x} ]; then
-    skip "SOLR_HOST not defined, skipping load to SOLR"
-  fi
-  export CONDENSED_SDRF_TSV=$BATS_TEST_DIRNAME/example-conds-sdrf.tsv
-  run analytics-check-index-content.sh
-  echo "output = ${output}"
-  [ "$status" -ne 0 ]
 }
 
 @test '[analytics] Re-create collection' {
@@ -287,11 +276,11 @@ setup() {
   [ "${status}" -eq 0 ]
 }
 
-@test "[analytics] Re-Load suggesters to collection on Solr" {
+@test "[analytics] Reload suggesters to collection on Solr" {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skipping loading of suggesters on Solr"
   fi
-  export SCHEMA_VERSION=6
+
   run create-scxa-analytics-suggesters.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
@@ -301,8 +290,20 @@ setup() {
   if [ -z ${SOLR_HOST+x} ]; then
     skip "SOLR_HOST not defined, skip building of suggesters on Solr"
   fi
-  export SCHEMA_VERSION=6
   run build-scxa-analytics-suggestions.sh
+
+  run analytics-check-suggesters.sh
+  echo "output = ${output}"
+  [ "$status" -eq 0 ]
+}
+
+@test "[analytics] all suggestions contain a non-empty payloadField" {
+  if [ -z ${SOLR_HOST+x} ]; then
+    skip "SOLR_HOST not defined, skip building of suggesters on Solr"
+  fi
+  #run build-scxa-analytics-suggestions.sh
+
+  run analytics-check-suggesters-payload.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
 }

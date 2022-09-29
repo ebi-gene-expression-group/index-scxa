@@ -21,7 +21,6 @@ setup() {
   if [ ! -z ${SOLR_COLLECTION_EXISTS+x} ]; then
     skip "Solr collection has been predefined on the current setup"
   fi
-  run create-scxa-gene2experiment-config-set.sh
   run create-scxa-gene2experiment-collection.sh
   echo "output = ${output}"
   [ "$status" -eq 0 ]
