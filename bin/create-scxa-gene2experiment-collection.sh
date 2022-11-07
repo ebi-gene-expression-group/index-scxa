@@ -20,7 +20,7 @@ printf "\n\nDeleting collection ${COLLECTION} based on ${HOST}\n"
 curl $SOLR_AUTH "http://${HOST}/solr/admin/collections?action=DELETE&name=${COLLECTION}"
 
 printf "\n\nCreating collection $CORE based on $HOST"
-curl $SOLR_AUTH "http://$HOST/solr/admin/collections?action=CREATE&name=$COLLECTION&collection.configName=$COLLECTION&numShards=$NUM_SHARDS&replicationFactor=$REPLICATES&maxShardsPerNode=$MAX_SHARDS_PER_NODE"
+curl $SOLR_AUTH "http://$HOST/solr/admin/collections?action=CREATE&name=$COLLECTION&numShards=$NUM_SHARDS&replicationFactor=$REPLICATES&maxShardsPerNode=$MAX_SHARDS_PER_NODE"
 
 printf "\n\nCreating collection ${COLLECTION} alias scxa-gene2experiment\n"
 curl $SOLR_AUTH "http://${HOST}/solr/admin/collections?action=CREATEALIAS&name=scxa-gene2experiment&collections=${COLLECTION}"
