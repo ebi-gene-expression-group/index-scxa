@@ -32,7 +32,8 @@ cell-type-wheel-cond-sdrf-to-ctw-fields.sh $COND_SDRF_JSONL_FILENAME > $CTW_HELP
 CTW_ENRICHED_COND_SDRF_JSONL_FILENAME=$WORKDIR/$BASE_FILENAME.ctw-enriched.jsonl
 echo "Adding cell type wheel fields to create final JSONL file -> $CTW_ENRICHED_COND_SDRF_JSONL_FILENAME"
 cell-type-wheel-merge.sh $COND_SDRF_JSONL_FILENAME $CTW_HELPER_JSON_FILENAME | jsonl-filter-empty-string-values.sh > $CTW_ENRICHED_COND_SDRF_JSONL_FILENAME
-
+echo "JSONL file created" 
 export INPUT_JSONL=$CTW_ENRICHED_COND_SDRF_JSONL_FILENAME
+echo "Loading JSONL chunk" 
 solr-jsonl-chunk-loader.sh
-
+echo "JSONL chunk loaded" 
