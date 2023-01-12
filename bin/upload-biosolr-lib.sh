@@ -36,7 +36,7 @@ HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/
 if [[ ! $HTTP_STATUS == 2* ]];
 then
 	# HTTP Status is not a 2xx code, so it is an error.
-   echo "Could not verify biosolr jar for http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true"
+   echo "Could not verify BioSolr JAR for http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true"
    exit 1
 fi
 
@@ -51,7 +51,7 @@ HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/
 if [[ ! $HTTP_STATUS == 2* ]];
 then
 	# HTTP Status is not a 2xx code, so it is an error.
-   echo "Failed to create the remote biosolr package for $REMOTE_BIOSOLR_PATH"
+   echo "Failed to create the remote BioSolr package for $REMOTE_BIOSOLR_PATH"
    exit 1
 fi
 

@@ -18,7 +18,7 @@ export SOLR_USER=<new-user>
 export SOLR_PASS=<new-pass>
 ```
 
-To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`. To setup users in a production setting the script [create-users.sh](bin/create-users.sh) will receive two set of users:
+To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`. To set up users in a production setting the script [create-users.sh](bin/create-users.sh) will receive two set of users:
 
 ```
 ADMIN_USER=<admin-username>
@@ -129,7 +129,7 @@ delete_scxa_analytics_index.sh
 ## Tests
 Tests are located in the `tests` directory and require Docker to run. To run them, execute `run_tests_in_containers.sh`. The `tests` folder includes example data in TSV (a condensed SDRF) and in JSON (as it should be produced by the first step that translates the cond. SDRF to JSON).
 
-# `scxa-gene2experiment` index v1
+# `scxa-gene2experiment` collection v1
 ## Create schema
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 
