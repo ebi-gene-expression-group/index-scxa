@@ -30,7 +30,7 @@ QUERY_U_PWD=<password>
 
 it will create both users, giving the first admin privileges and the second reading privileges only, delete the default user and set the instance to only work with authenticated users.
 
-# `scxa-analytics` index v6
+# `scxa-analytics` collection v8
 ## Create collection
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 
@@ -46,7 +46,7 @@ create-scxa-analytics-collection.sh
 
 ## Enable BioSolr
 
-`scxa-analytics-v5` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 3 options:
+`scxa-analytics-v8` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 3 options:
 
 ### Option 1: Local `.jar` file
 
@@ -117,7 +117,7 @@ build-scxa-analytics-suggestions.sh
 
 ## Load data
 This module loads data from a condensed SDRF in an SCXA experiment to the
-`scxa-analytics-v6` collection in Solr. Temporary files are created as part of
+`scxa-analytics-v8` collection in Solr. Temporary files are created as part of
 this process; by default they are written to `$PWD` but this can be overridden
 by exporting the `$WORKDIR` variable. You should make sure that the running
 user has write permissions to either the current working directory, or

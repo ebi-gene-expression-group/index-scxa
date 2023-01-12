@@ -59,7 +59,7 @@ sleep 10
 
 BIOSOLR_REMOTE_JAR_PATH=/packages/solr-ontology-update-processor-$BIOSOLR_VERSION.jar
 
-docker exec --user=solr $SOLR_CONT_NAME bin/solr create_collection -c scxa-analytics-v7
+docker exec --user=solr $SOLR_CONT_NAME bin/solr create_collection -c scxa-analytics-v8
 docker exec --user=solr $SOLR_CONT_NAME bin/solr create_collection -c scxa-gene2experiment-v1
 docker run -i --net $DOCKER_NET -v $( pwd )/tests:/opt/tests -v $( pwd )/bin:/opt/bin \
     -v $(pwd)/lib/solr-ontology-update-processor-$BIOSOLR_VERSION.jar:$BIOSOLR_REMOTE_JAR_PATH \
