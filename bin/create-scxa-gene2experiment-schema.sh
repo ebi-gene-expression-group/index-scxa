@@ -58,7 +58,7 @@ curl $SOLR_AUTH -X POST -H 'Content-type:application/json' --data-binary '{
 printf "\n\nDisable autoCreateFields (aka “Data driven schema”)"
 curl $SOLR_AUTH -X POST -H 'Content-type:application/json' --data-binary '{
   "set-user-property": {
-    "update.autoCreateFields": false
+    "update.autoCreateFields": "false"
   }
 }' http://$HOST/solr/$CORE/config
 

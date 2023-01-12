@@ -8,5 +8,5 @@ SOLR_PASS=${SOLR_PASS:-"SolrRocks"}
 SOLR_AUTH="-u $SOLR_USER:$SOLR_PASS"
 
 curl -X POST -H 'Content-type:application/json' --data-binary '{
-  "set-user-property": {"update.autoCreateFields":false}
+  "set-user-property": {"update.autoCreateFields":"false"}
 }' $SOLR_AUTH "http://$HOST/solr/$CORE/config"
