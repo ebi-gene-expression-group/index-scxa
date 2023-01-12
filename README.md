@@ -52,21 +52,7 @@ create-scxa-analytics-collection.sh
 
 Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory. This is the oldest option, and has some security issues, but for testing should be fine.
 
-### Option 2: Blob store API
-
-You can use the BioSolr jar as a runtime library stored in the blob store API. In order to enable the use of runtime libraries, you must start your Solr instance with the flag `-Denable.runtime.lib=true`. **This option is now deprecated in solr 8 and will not be available anymore in Solr 9.**
-
-To load the jar, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
-
-```bash
-export SOLR_HOST=192.168.99.100:32080
-
-create-scxa-analytics-biosolr-lib.sh
-```
-
-You can override the default target Solr collection by setting `SOLR_COLLECTION`. You can also provide your own path to the BioSolr jar file by setting `BIOSOLR_JAR_PATH`.
-
-### Option 3: Solr package manager (used in the CI - preferred for production)
+### Option 2: Solr package manager (used in the CI - preferred for production)
 
 Newer versions of solr introduced a new approach, named package manager, to deal with 3rd party JARs and files to be made available to solr. This implies the following steps:
 
