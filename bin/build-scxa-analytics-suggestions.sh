@@ -18,7 +18,7 @@ BUILD=${BUILD_SUGGESTERS:-true}
 # Build suggesters one by one
 if [ "$BUILD" = true ] ; then
   for SUGGESTER in ontologyAnnotationSuggester ontologyAnnotationAncestorSuggester ontologyAnnotationParentSuggester ontologyAnnotationSynonymSuggester; do
-    echo "Building $suggester"
+    echo "Building suggester $SUGGESTER..."
         
     # For some reason the error trace that can come back invalidates the
     # JSON so we need some 'tr' and 'sed' magic
@@ -27,7 +27,7 @@ if [ "$BUILD" = true ] ; then
     STATUS_CODE=$(echo -e "$RESPONSE" | jq '.responseHeader.status')
 
     if [ "$STATUS_CODE" -eq '0' ]; then
-      echo "Successfully built suggester: $SUGGESTER"
+      echo "Successfully built suggester $SUGGESTER"
     else
       echo -e "Failed to build suggester $SUGGESTER, response was: \n\n$RESPONSE\n" 1>&2
     fi

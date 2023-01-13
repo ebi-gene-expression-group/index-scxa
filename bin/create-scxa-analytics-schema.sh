@@ -376,10 +376,10 @@ HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) -X POST -H 'Conten
     "class": "biosolr:uk.co.flax.biosolr.solr.update.processor.OntologyUpdateProcessorFactory",
     "annotationField": "ontology_annotation",
     "ontologyURI": "'$SCXA_ONTOLOGY'",
-    "includeChildren": "false",
-    "includeDescendants": "false"
+    "includeChildren": false,
+    "includeDescendants": false
   }
-}' http://$HOST/solr/$CORE/config)
+}' http://$HOST/api/collections/$CORE/config)
 
 if [[ ! $HTTP_STATUS == 2* ]];
 then

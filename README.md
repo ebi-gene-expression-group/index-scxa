@@ -18,7 +18,7 @@ export SOLR_USER=<new-user>
 export SOLR_PASS=<new-pass>
 ```
 
-To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`. To setup users in a production setting the script [create-users.sh](bin/create-users.sh) will receive two set of users:
+To use default auth in a new solr cloud instance, upload `test/security.json` to ZK as shown in the `Setup auth` part of the `run_tests_in_containers.sh`. To set up users in a production setting the script [create-users.sh](bin/create-users.sh) will receive two set of users:
 
 ```
 ADMIN_USER=<admin-username>
@@ -30,7 +30,7 @@ QUERY_U_PWD=<password>
 
 it will create both users, giving the first admin privileges and the second reading privileges only, delete the default user and set the instance to only work with authenticated users.
 
-# `scxa-analytics` index v6
+# `scxa-analytics` collection v8
 ## Create collection
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 
@@ -46,27 +46,13 @@ create-scxa-analytics-collection.sh
 
 ## Enable BioSolr
 
-`scxa-analytics-v5` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 3 options:
+`scxa-analytics-v8` makes use of the [BioSolr plugin](https://github.com/ebi-gene-expression-group/BioSolr) to perform ontology expansion on document indexing. In order to enable BioSolr, there are 3 options:
 
 ### Option 1: Local `.jar` file
 
 Place BioSolr jar (which can be found in the repository's `lib` directory) under `/server/solr/lib/` in your Solr installation directory. This is the oldest option, and has some security issues, but for testing should be fine.
 
-### Option 2: Blob store API
-
-You can use the BioSolr jar as a runtime library stored in the blob store API. In order to enable the use of runtime libraries, you must start your Solr instance with the flag `-Denable.runtime.lib=true`. **This option is now deprecated in solr 8 and will not be available anymore in Solr 9.**
-
-To load the jar, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
-
-```bash
-export SOLR_HOST=192.168.99.100:32080
-
-create-scxa-analytics-biosolr-lib.sh
-```
-
-You can override the default target Solr collection by setting `SOLR_COLLECTION`. You can also provide your own path to the BioSolr jar file by setting `BIOSOLR_JAR_PATH`.
-
-### Option 3: Solr package manager (used in the CI - preferred for production)
+### Option 2: Solr package manager (used in the CI - preferred for production)
 
 Newer versions of solr introduced a new approach, named package manager, to deal with 3rd party JARs and files to be made available to solr. This implies the following steps:
 
@@ -117,7 +103,7 @@ build-scxa-analytics-suggestions.sh
 
 ## Load data
 This module loads data from a condensed SDRF in an SCXA experiment to the
-`scxa-analytics-v6` collection in Solr. Temporary files are created as part of
+`scxa-analytics-v8` collection in Solr. Temporary files are created as part of
 this process; by default they are written to `$PWD` but this can be overridden
 by exporting the `$WORKDIR` variable. You should make sure that the running
 user has write permissions to either the current working directory, or
@@ -143,7 +129,7 @@ delete_scxa_analytics_index.sh
 ## Tests
 Tests are located in the `tests` directory and require Docker to run. To run them, execute `run_tests_in_containers.sh`. The `tests` folder includes example data in TSV (a condensed SDRF) and in JSON (as it should be produced by the first step that translates the cond. SDRF to JSON).
 
-# `scxa-gene2experiment` index v1
+# `scxa-gene2experiment` collection v1
 ## Create schema
 To create the schema, set the environment variable `SOLR_HOST` to the appropriate server, and execute as shown
 

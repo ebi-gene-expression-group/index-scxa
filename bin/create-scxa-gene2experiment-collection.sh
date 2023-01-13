@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-SCHEMA_VERSION=1
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+. ${DIR}/scxa-gene2experiment-schema-version.env
 
 set -e
 
