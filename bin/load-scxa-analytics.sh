@@ -17,7 +17,7 @@ export WORKDIR=${WORKDIR:-`pwd`}
 # SCHEMA_VERSION needs to be exported for solr-jsonl-chunk-loader.sh to build the collection name properly
 export SCHEMA_VERSION=${SCHEMA_VERSION}
 export SOLR_COLLECTION=scxa-analytics
-export SOLR_PROCESSORS=${SOLR_COLLECTION}-v${SCHEMA_VERSION}_dedupe,${SOLR_COLLECTION}-v${SCHEMA_VERSION}_ontology_expansion
+export SOLR_PROCESSORS=${SOLR_COLLECTION}-v${SCHEMA_VERSION}_dedupe
 
 BASE_FILENAME=`basename $CONDENSED_SDRF_TSV .tsv`
 
