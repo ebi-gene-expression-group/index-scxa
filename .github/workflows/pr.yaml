@@ -12,6 +12,8 @@ jobs:
         shell: bash -l {0}
     steps:
       - uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
       - name: Run tests
         run: |
           ./run_tests_in_containers.sh
