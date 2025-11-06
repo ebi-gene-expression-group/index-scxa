@@ -13,6 +13,15 @@ SOLR_AUTH="-u $SOLR_USER:$SOLR_PASS"
 [ -z ${BIOSOLR_VERSION+x} ] && echo "BIOSOLR_VERSION env var is needed." && exit 1
 [ -z ${SIGNING_PRIVATE_KEY+x} ] && echo "SIGNING_PRIVATE_KEY env var is needed." && exit 1
 
+# Check if BioSolr package is already installed
+HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}\n" \
+  $SOLR_AUTH "http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true")
+if [[ $HTTP_STATUS == 200 ]];
+then
+  echo "BioSolr package is already installed."
+  exit 0
+fi
+
 # Sign biosolr JAR
 echo $SIGNING_PRIVATE_KEY
 SIGNATURE=$(openssl dgst -sha1 -sign $SIGNING_PRIVATE_KEY $BIOSOLR_JAR_PATH | openssl enc -base64 | sed 's/+/%2B/g' | tr -d \\n )
@@ -26,7 +35,7 @@ HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) --data-binary @$BI
 
 if [[ ! $HTTP_STATUS == 2* ]];
 then
-	# HTTP Status is not a 2xx code, so it is an error.
+  # HTTP Status is not a 2xx code, so it is an error.
    echo "Failed to upload the signed JAR file"
    exit 1
 fi
@@ -35,7 +44,7 @@ fi
 HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true" )
 if [[ ! $HTTP_STATUS == 2* ]];
 then
-	# HTTP Status is not a 2xx code, so it is an error.
+  # HTTP Status is not a 2xx code, so it is an error.
    echo "Could not verify BioSolr JAR for http://$HOST/api/node/files/biosolr/$BIOSOLR_VERSION?omitHeader=true"
    exit 1
 fi
@@ -50,7 +59,7 @@ HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/
 
 if [[ ! $HTTP_STATUS == 2* ]];
 then
-	# HTTP Status is not a 2xx code, so it is an error.
+  # HTTP Status is not a 2xx code, so it is an error.
    echo "Failed to create the remote BioSolr package for $REMOTE_BIOSOLR_PATH"
    exit 1
 fi
@@ -60,7 +69,7 @@ HTTP_STATUS=$(curl $SOLR_AUTH -w "%{http_code}" -o >(cat >&3) "http://$HOST/api/
 
 if [[ ! $HTTP_STATUS == 2* ]];
 then
-	# HTTP Status is not a 2xx code, so it is an error.
+  # HTTP Status is not a 2xx code, so it is an error.
    echo "Failed to create the remote biosolr package for $REMOTE_BIOSOLR_PATH"
    exit 1
 fi
